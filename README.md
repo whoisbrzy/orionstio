@@ -1,6 +1,6 @@
 # Orion
 
-An independent creative studio website built with Astro, TypeScript, CSS and Motion.
+An independent branding studio website built with Astro, TypeScript, CSS and Motion.
 
 ## Development
 
@@ -17,12 +17,13 @@ npm run build
 npm run preview
 ```
 
-## Project notes
+## Site features
 
-- Static-first Astro site with minimal client-side JavaScript.
-- Responsive light and dark themes.
-- Motion-powered reveal and scroll zoom effects.
-- Interactive pricing package selector.
+- Responsive editorial layout with light and dark themes.
+- Inline SVG iconography throughout navigation and content.
+- Motion-powered hero entrance, floating orbital artwork, and scroll-linked zoom.
+- Scroll-triggered section reveals and interactive hover states.
+- Pricing explained as a tailored scoping process rather than invented fixed rates.
 - Reduced-motion and reduced-transparency preferences are supported.
 
-Pricing, contact details, portfolio examples and final brand assets are draft content and must be confirmed before launch.
+The page intentionally contains no fabricated client case studies, sample package prices, or invented contact address. Add verified portfolio material and the studio's real contact channel when those details are available.
