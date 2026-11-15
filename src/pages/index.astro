@@ -236,8 +236,8 @@ if (canHover) {
   if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
     import("https://esm.sh/lenis@1.3.11").then(({ default: Lenis }) => {
       const lenis = new Lenis({
-        lerp: 0.06,
-        wheelMultiplier: 0.65,
+        lerp: 0.045,
+        wheelMultiplier: 0.5,
         smoothWheel: true,
         syncTouch: false
       });
