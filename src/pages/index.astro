@@ -42,7 +42,7 @@ import "../styles/global.css";
 <div class="stage-label"><span>Orion®</span><span>Branding studio</span></div>
 <div class="composition" data-art aria-hidden="true">
 <div class="depth" data-depth="10"><div class="orbit orbit-a"><i></i></div><div class="orbit orbit-b"><i></i></div><div class="orbit orbit-c"><i></i></div></div>
-<img class="hero-mark" src="/orion-mark.png" alt="" width="893" height="900" decoding="async">
+
 <div class="depth depth-front" data-depth="26"><div class="sphere sphere-dark"></div><div class="sphere sphere-light"></div></div>
 </div>
 <div class="stage-label bottom"><span>Strategy, identity, digital</span><span>Scroll <b>↓</b></span></div>
@@ -187,8 +187,8 @@ const heroStage = document.querySelector<HTMLElement>("[data-stage]");
 const art = document.querySelector<HTMLElement>("[data-art]");
 if (heroStage && art && !reduceMotion) {
   scroll((progress: number) => {
-    const scale = 0.82 + progress * 0.3;
-    art.style.transform = `scale(${scale.toFixed(4)}) translateY(${((1 - progress) * 28).toFixed(2)}px)`;
+    const scale = 0.94 + progress * 0.12;
+    art.style.transform = `scale(${scale.toFixed(4)}) translateY(${((1 - progress) * 12).toFixed(2)}px)`;
   }, { target: heroStage, offset: ["start end", "end start"] });
 
   // Slow loops (about 0.1 Hz or less) so nothing oscillates near 0.2 Hz.
