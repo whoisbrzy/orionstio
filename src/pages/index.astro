@@ -39,7 +39,6 @@ import "../styles/global.css";
 </div>
 </div>
 <div class="hero-stage" data-stage>
-<div class="stage-label"><span>Orion®</span><span>Branding studio</span></div>
 <div class="composition" data-art aria-hidden="true">
 <div class="depth" data-depth="10"><div class="orbit orbit-a"><i></i></div><div class="orbit orbit-b"><i></i></div><div class="orbit orbit-c"><i></i></div></div>
 
@@ -186,9 +185,12 @@ inView(".reveal", (element) => {
 const heroStage = document.querySelector<HTMLElement>("[data-stage]");
 const art = document.querySelector<HTMLElement>("[data-art]");
 if (heroStage && art && !reduceMotion) {
+  // Ease the artwork behind the user's scroll instead of snapping to each scroll frame.
+  art.style.transition = "transform 1.35s cubic-bezier(0.16, 1, 0.3, 1)";
   scroll((progress: number) => {
-    const scale = 0.94 + progress * 0.12;
-    art.style.transform = `scale(${scale.toFixed(4)}) translateY(${((1 - progress) * 12).toFixed(2)}px)`;
+    const scale = 0.88 + progress * 0.24;
+    const y = (0.5 - progress) * 54;
+    art.style.transform = `translateY(${y.toFixed(2)}px) scale(${scale.toFixed(4)})`;
   }, { target: heroStage, offset: ["start end", "end start"] });
 
   // Slow loops (about 0.1 Hz or less) so nothing oscillates near 0.2 Hz.
