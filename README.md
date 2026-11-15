@@ -26,8 +26,7 @@ npm run preview
 - Motion springs for the hero entrance, scroll reveals and mobile menu. They start from the current value, so a half-finished open or close can be reversed.
 - Translucent header that gains depth once content scrolls under it, and a nav link that follows the section in view.
 - Display type tightens as it grows and small labels loosen. Type sizes use rem so they follow the browser's text-size setting.
-- Pricing explained as a tailored scoping process rather than invented fixed rates.
-- Pricing is three step cards (scope, proposal, start work) with a cursor-following highlight.
+- Pricing is two pack cards with a cursor-following highlight. Mini costs $29 or 2,400 Robux. Core costs $49 or 5,000 Robux.
 - Reduced-motion (short fades only), reduced-transparency and increased-contrast preferences are supported. Content stays visible without JavaScript.
 
-The page intentionally contains no fabricated client case studies, sample package prices, or invented contact address. Add verified portfolio material and the studio's real contact channel when those details are available.
+The page intentionally contains no fabricated client case studies or invented contact address. The pack prices come from the studio. Add what each pack includes, verified portfolio material and the studio's real contact channel when those details are available.

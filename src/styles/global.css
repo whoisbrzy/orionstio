@@ -89,16 +89,13 @@ h1,.display{text-wrap:balance}
 /* Pricing */
 .pricing{background:var(--surface);border-block:1px solid var(--line);padding:8rem 0}
 .pricing .section-head{margin-bottom:3rem}
-.pricing-lead{display:flex;align-items:center;gap:1.25rem;margin-bottom:2rem}
-.pricing-symbol{display:grid;place-items:center;flex:none;width:52px;height:52px;border:1px solid var(--line);border-radius:50%;font-size:1.5rem}
-.pricing-lead p{max-width:34rem;margin:0;color:var(--muted);font-size:1rem;line-height:1.7}
-.price-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
-.price-card{position:relative;isolation:isolate;overflow:hidden;display:flex;flex-direction:column;min-height:16rem;padding:1.75rem;border:1px solid var(--line);border-radius:1.25rem;background:var(--card);transition:border-color .25s ease,transform .12s ease-out}
+.price-cards{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
+.price-card{position:relative;isolation:isolate;overflow:hidden;display:flex;flex-direction:column;min-height:20rem;padding:2rem;border:1px solid var(--line);border-radius:1.25rem;background:var(--card);transition:border-color .25s ease,transform .12s ease-out}
 .price-card:hover{border-color:#ffffff59}
-.price-step{color:var(--muted);font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
-.price-card h3{margin:4rem 0 .5rem;font-size:1.6rem;font-weight:500;letter-spacing:-.025em}
-.price-card p{max-width:20rem;margin:0;color:var(--muted);font-size:.9375rem;line-height:1.65}
-.pricing-note{margin:1.5rem 0 0;color:var(--muted);font-size:.8125rem}
+.price-card h3{margin:0;font-size:1.6rem;font-weight:500;letter-spacing:-.025em}
+.price{display:flex;flex-direction:column;gap:.5rem;margin:auto 0 0}
+.price strong{font-size:clamp(3.5rem,7vw,6rem);font-weight:500;letter-spacing:-.05em;line-height:1}
+.price span{color:var(--muted);font-size:1rem}
 
 .about{padding-top:9rem;padding-bottom:8rem}
 .about-top .section-title{margin:0}
@@ -137,8 +134,7 @@ h1,.display{text-wrap:balance}
   .hero-copy{display:block;padding:0 0 2.2rem}
   .hero-aside{width:min(100%,24rem);margin-top:2rem}
   .price-cards{grid-template-columns:1fr}
-  .price-card{min-height:12rem}
-  .price-card h3{margin-top:2rem}
+  .price-card{min-height:15rem}
 }
 
 @media(max-width:760px){
@@ -167,7 +163,6 @@ h1,.display{text-wrap:balance}
   .principle-icon{margin-bottom:1.5rem}
   .pricing{padding:5.6rem 0}
   .pricing .section-head{margin-bottom:2rem}
-  .pricing-lead{align-items:flex-start}
   .about{padding:5.6rem 0}
   .about-grid{grid-template-columns:1fr;gap:2.2rem;padding:4rem 0 2.2rem}
   .about .display{font-size:clamp(3.4rem,13vw,5.2rem)}
