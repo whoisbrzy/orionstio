@@ -18,7 +18,7 @@ import "../styles/global.css";
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="header" id="top">
-<a class="logo" href="#top" aria-label="Orion home">ORION<span>®</span></a>
+<a class="logo" href="#top" aria-label="Orion home"><img src="/orion-wordmark.webp" alt="" width="480" height="140"></a>
 <nav class="nav" aria-label="Main navigation"><a href="#approach">Approach</a><a href="#pricing">Pricing</a><a href="#about">About</a></nav>
 <div class="actions">
 <a class="nav-cta" href="#contact">Start a project <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M8 5h11v11"/></svg></a>
@@ -38,13 +38,10 @@ import "../styles/global.css";
 </div>
 </div>
 </div>
-<div class="hero-stage" data-stage>
-<div class="composition" data-art aria-hidden="true">
-<div class="depth" data-depth="10"><div class="orbit orbit-a"><i></i></div><div class="orbit orbit-b"><i></i></div><div class="orbit orbit-c"><i></i></div></div>
-
-<div class="depth depth-front" data-depth="26"><div class="sphere sphere-dark"></div><div class="sphere sphere-light"></div></div>
-</div>
-<div class="stage-label bottom"><span>Strategy, identity, digital</span><span>Scroll <b>↓</b></span></div>
+<div class="hero-banner">
+<img src="/hero-banner.webp" alt="Orion, a creative branding studio specializing in distinctive logos, visual identities and complete brand experiences that make businesses stand out." width="2400" height="1350" fetchpriority="high" decoding="async">
+<!-- The banner image has a Get Started button baked in. This link sits over it. -->
+<a class="banner-cta" href="#contact" aria-label="Get started, go to the contact section"></a>
 </div>
 </section>
 
@@ -92,10 +89,15 @@ import "../styles/global.css";
 <div class="contact-bottom"><p>The first step is a conversation about the project, so we can scope it.</p></div>
 </div></section>
 </main>
-<footer class="footer shell"><a class="logo" href="#top">ORION<span>®</span></a><span>Independent branding studio</span><a href="#top">Back to top <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20V4m-7 7 7-7 7 7"/></svg></a><small>© 2026 Orion. All rights reserved.</small></footer>
+<footer class="footer shell">
+<span>Independent branding studio</span>
+<a href="#top">Back to top <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20V4m-7 7 7-7 7 7"/></svg></a>
+<img class="footer-wordmark reveal" src="/orion-wordmark-large.webp" alt="Orion" width="1800" height="526" loading="lazy" decoding="async">
+<small>© 2026 Orion. All rights reserved.</small>
+</footer>
 
 <script>
-import { animate, inView, scroll } from "motion";
+import { animate, inView } from "motion";
 
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const canHover = matchMedia("(hover: hover) and (pointer: fine)").matches;
@@ -168,7 +170,7 @@ const enter = (element: Element | null, delay = 0) => {
 };
 enter(document.querySelector(".hero h1"));
 enter(document.querySelector(".hero-aside"), 0.15);
-enter(document.querySelector(".hero-stage"), 0.25);
+enter(document.querySelector(".hero-banner"), 0.25);
 
 /* Scroll reveals, staggered across siblings */
 inView(".reveal", (element) => {
@@ -180,43 +182,6 @@ inView(".reveal", (element) => {
   const delay = Math.max(0, siblings.indexOf(element)) * 0.08;
   animate(element, { opacity: [0, 1], y: [28, 0] }, { ...spring(0.8), delay });
 }, { margin: "0px 0px -10% 0px" });
-
-/* Hero artwork */
-const heroStage = document.querySelector<HTMLElement>("[data-stage]");
-const art = document.querySelector<HTMLElement>("[data-art]");
-if (heroStage && art && !reduceMotion) {
-  // Ease the artwork behind the user's scroll instead of snapping to each scroll frame.
-  art.style.transition = "transform 1.35s cubic-bezier(0.16, 1, 0.3, 1)";
-  scroll((progress: number) => {
-    const scale = 0.88 + progress * 0.24;
-    const y = (0.5 - progress) * 54;
-    art.style.transform = `translateY(${y.toFixed(2)}px) scale(${scale.toFixed(4)})`;
-  }, { target: heroStage, offset: ["start end", "end start"] });
-
-  // Slow loops (about 0.1 Hz or less) so nothing oscillates near 0.2 Hz.
-  animate(".sphere-dark", { y: [-12, 12], rotate: [0, 12] }, { duration: 9, repeat: Infinity, repeatType: "mirror", ease: "easeInOut" });
-  animate(".sphere-light", { y: [10, -10], x: [-6, 6] }, { duration: 11, repeat: Infinity, repeatType: "mirror", ease: "easeInOut" });
-  animate(".orbit-a", { rotate: [0, 360] }, { duration: 60, repeat: Infinity, ease: "linear" });
-  animate(".orbit-b", { rotate: [0, -360] }, { duration: 80, repeat: Infinity, ease: "linear" });
-  animate(".orbit-c", { rotate: [0, 360] }, { duration: 100, repeat: Infinity, ease: "linear" });
-
-  // Pointer parallax. Each move re-targets the spring from its current value and velocity.
-  if (canHover) {
-    const layers = [...document.querySelectorAll<HTMLElement>("[data-depth]")];
-    heroStage.addEventListener("pointermove", (event) => {
-      const box = heroStage.getBoundingClientRect();
-      const nx = ((event.clientX - box.left) / box.width - 0.5) * 2;
-      const ny = ((event.clientY - box.top) / box.height - 0.5) * 2;
-      for (const layer of layers) {
-        const depth = Number(layer.dataset.depth);
-        animate(layer, { x: -nx * depth, y: -ny * depth }, spring(0.7));
-      }
-    });
-    heroStage.addEventListener("pointerleave", () => {
-      for (const layer of layers) animate(layer, { x: 0, y: 0 }, spring(0.8));
-    });
-  }
-}
 
 /* Cursor-following highlight on cards */
 if (canHover) {
