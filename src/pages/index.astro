@@ -3,11 +3,27 @@ import "../styles/global.css";
 ---
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f5f5f2">
-<meta name="description" content="Orion is a branding studio building distinctive identities and thoughtful digital experiences."><title>Orion® — Branding studio</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f5f5f2">
+<meta name="description" content="Orion is an independent branding studio. We design brand strategy, identity and digital work, and we quote each project after we scope it.">
+<title>Orion, independent branding studio</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%2311110f'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%23c9f36b'/%3E%3C/svg%3E">
+<script is:inline>
+(function () {
+  var root = document.documentElement, theme;
+  root.classList.add("js");
+  try { theme = localStorage.getItem("orion-theme"); } catch (e) {}
+  if (!theme) theme = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  root.dataset.theme = theme;
+})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400..700&display=swap" rel="stylesheet">
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 <header class="header" id="top">
 <a class="logo" href="#top" aria-label="Orion home">ORION<span>®</span></a>
 <nav class="nav" aria-label="Main navigation"><a href="#approach">Approach</a><a href="#pricing">Pricing</a><a href="#about">About</a></nav>
@@ -16,87 +32,234 @@ import "../styles/global.css";
 <a class="nav-cta" href="#contact">Start a project <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M8 5h11v11"/></svg></a>
 <button class="icon-button menu" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu"><span></span><span></span></button>
 </div>
-<nav class="mobile-menu" id="mobile-menu" hidden><a href="#approach">Approach</a><a href="#pricing">Pricing</a><a href="#about">About</a><a href="#contact">Contact <span>↗</span></a></nav>
+<nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation" hidden><a href="#approach">Approach</a><a href="#pricing">Pricing</a><a href="#about">About</a><a href="#contact">Start a project <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M8 5h11v11"/></svg></a></nav>
 </header>
-<main>
+<main id="main">
 <section class="hero shell">
-<p class="kicker"><i></i> Branding studio <span>·</span> Independent creative practice</p>
-<div class="hero-copy"><h1>Make your<br><span>mark.</span></h1><div class="hero-aside"><p>Distinctive brand identities and digital experiences for businesses with something to say.</p><a class="underlink" href="#approach">Discover the Orion approach <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v16m-7-7 7 7 7-7"/></svg></a></div></div>
-<div class="hero-stage" data-stage><div class="stage-label"><span>ORION® / BRANDING STUDIO</span><span>IDENTITY WITH INTENTION</span></div>
-<div class="composition" data-art aria-hidden="true"><div class="orbit orbit-a"></div><div class="orbit orbit-b"></div><div class="orbit orbit-c"></div><div class="sphere sphere-dark"></div><div class="sphere sphere-light"></div><div class="hero-mark">O<span>R</span>ION</div><div class="hero-coordinate">O / 01<br>FORM STUDY</div></div>
-<div class="stage-label bottom"><span>STRATEGY / IDENTITY / DIGITAL</span><span>SCROLL TO EXPLORE <b>↓</b></span></div></div>
-<div class="hero-foot"><span>BUILT TO BE<br>RECOGNISED.</span><span>01 — ORION STUDIO</span></div>
+<p class="kicker"><i></i> Independent branding studio</p>
+<div class="hero-copy">
+<h1>Brand<br><span>identity.</span></h1>
+<div class="hero-aside">
+<p>We design brand strategy, identity and digital work for businesses that have something to say.</p>
+<div class="hero-actions">
+<a class="button" href="#contact">Start a project <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M8 5h11v11"/></svg></a>
+<a class="underlink" href="#approach">How we work <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v16m-7-7 7 7 7-7"/></svg></a>
+</div>
+</div>
+</div>
+<div class="hero-stage" data-stage>
+<div class="stage-label"><span>Orion®</span><span>Branding studio</span></div>
+<div class="composition" data-art aria-hidden="true">
+<div class="depth" data-depth="10"><div class="orbit orbit-a"><i></i></div><div class="orbit orbit-b"><i></i></div><div class="orbit orbit-c"><i></i></div></div>
+<div class="hero-mark">O<span>R</span>ION</div>
+<div class="depth depth-front" data-depth="26"><div class="sphere sphere-dark"></div><div class="sphere sphere-light"></div></div>
+<div class="hero-coordinate">O / 01<br>Form study</div>
+</div>
+<div class="stage-label bottom"><span>Strategy, identity, digital</span><span>Scroll <b>↓</b></span></div>
+</div>
 </section>
-<section class="intro shell reveal" id="approach"><p class="eyebrow">01 / THE APPROACH</p><h2>Clarity makes<br>brands <span>stronger.</span></h2><p>Good branding gives people a reason to recognise you, understand you and remember you. Every decision should earn its place.</p></section>
+
+<section class="intro shell reveal" id="approach">
+<p class="eyebrow">01 / The approach</p>
+<h2>Start with what<br>you need to <span>say.</span></h2>
+<p>A brand should tell people who you are and what you do. We remove any design decision that doesn't help with that.</p>
+</section>
+
 <section class="approach shell">
-<div class="section-head reveal"><div><p class="eyebrow">02 / WHAT GUIDES THE WORK</p><h2>Thoughtful by<br>design.</h2></div><p>A clear point of view,<br>from first idea to final detail.</p></div>
+<div class="section-head reveal"><div><p class="eyebrow">02 / How we decide</p><h2>How we<br><span>make decisions.</span></h2></div><p>Every project follows the same three principles.</p></div>
 <div class="principles">
-<article class="principle reveal"><span class="principle-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="15"/><path d="M24 2v8m0 28v8M2 24h8m28 0h8M24 16v8l6 4"/></svg></span><span class="principle-no">01</span><h3>Purpose first</h3><p>Start with what the business needs to communicate. Strategy gives the design direction.</p><span class="principle-arrow">↗</span></article>
-<article class="principle reveal"><span class="principle-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M7 36 19 12l9 17 5-9 8 16H7Z"/><circle cx="34" cy="12" r="4"/></svg></span><span class="principle-no">02</span><h3>Distinct by nature</h3><p>Build a recognisable visual language instead of following whatever is trending.</p><span class="principle-arrow">↗</span></article>
-<article class="principle reveal"><span class="principle-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="7" y="7" width="34" height="34" rx="2"/><path d="M7 19h34M19 19v22m10-22v22"/></svg></span><span class="principle-no">03</span><h3>Made to work</h3><p>A brand should hold together across the places people actually encounter it.</p><span class="principle-arrow">↗</span></article>
-</div></section>
+<article class="principle reveal"><span class="principle-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="15"/><path d="M24 2v8m0 28v8M2 24h8m28 0h8M24 16v8l6 4"/></svg></span><span class="principle-no">01</span><h3>Purpose first</h3><p>We start with what the business needs to communicate. The strategy decides the design.</p></article>
+<article class="principle reveal"><span class="principle-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M7 36 19 12l9 17 5-9 8 16H7Z"/><circle cx="34" cy="12" r="4"/></svg></span><span class="principle-no">02</span><h3>Distinct, not trendy</h3><p>We build a visual language that belongs to your business instead of following trends.</p></article>
+<article class="principle reveal"><span class="principle-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="7" y="7" width="34" height="34" rx="2"/><path d="M7 19h34M19 19v22m10-22v22"/></svg></span><span class="principle-no">03</span><h3>Made to work</h3><p>The identity has to look consistent everywhere people meet it.</p></article>
+</div>
+</section>
+
 <section class="pricing" id="pricing"><div class="shell">
-<div class="section-head reveal"><div><p class="eyebrow">03 / PRICING</p><h2>Investment with<br><span>intention.</span></h2></div><p>No arbitrary packages or surprise add-ons.<br>Scope comes before a quote.</p></div>
-<div class="pricing-layout reveal"><div class="pricing-lead"><span class="pricing-symbol">€</span><p>Every project is different. Pricing is based on the scope, complexity and deliverables your business actually needs.</p></div>
+<div class="section-head reveal"><div><p class="eyebrow">03 / Pricing</p><h2>Pricing starts<br>with <span>scope.</span></h2></div><p>There are no fixed packages. We quote each project after we scope it.</p></div>
+<div class="pricing-layout reveal">
+<div class="pricing-lead"><span class="pricing-symbol">€</span><p>Price depends on how much work the project needs. We can't give an honest number until we've defined it.</p></div>
 <div class="pricing-details">
 <div class="price-row"><span>01</span><div><h3>Scope</h3><p>We define the challenge, goals and work required.</p></div><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></div>
-<div class="price-row"><span>02</span><div><h3>Proposal</h3><p>You receive a clear scope, timeline and project quote.</p></div><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></div>
-<div class="price-row"><span>03</span><div><h3>Make it happen</h3><p>Work begins once the direction and investment are agreed.</p></div><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></div>
-</div></div><p class="pricing-note">A tailored quote is provided before any work begins.</p>
+<div class="price-row"><span>02</span><div><h3>Proposal</h3><p>You receive a scope, a timeline and a quote.</p></div><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></div>
+<div class="price-row"><span>03</span><div><h3>Start work</h3><p>Work begins once you agree on the direction and the price.</p></div><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></div>
+</div>
+</div>
+<p class="pricing-note">You get a quote before any work begins.</p>
 </div></section>
-<section class="about shell" id="about"><div class="about-top reveal"><p class="eyebrow">04 / ABOUT ORION</p><span>BRANDING STUDIO</span></div>
-<div class="about-grid reveal"><h2>Make it<br><span>mean</span><br>something.</h2><div><p>Orion is a branding studio focused on helping businesses build a clear and distinctive presence.</p><p>From the first strategic question to the final visual detail, the aim is the same: create work with purpose, character and consistency.</p></div></div></section>
-<section class="contact" id="contact"><div class="shell reveal"><p class="eyebrow">05 / START A PROJECT</p><h2>Let's make<br><span>something</span><br>matter.</h2><div class="contact-bottom"><p>Have a project in mind?<br>Get in touch and tell us what you're building.</p></div></div></section>
+
+<section class="about shell" id="about">
+<div class="about-top reveal"><p class="eyebrow">04 / About Orion</p></div>
+<div class="about-grid reveal">
+<h2>An independent<br><span>branding studio.</span></h2>
+<div>
+<p>Orion helps businesses build a clear, distinctive brand.</p>
+<p>Strategy, identity and digital work happen in the same studio, so the decisions stay consistent from the first idea to the final detail.</p>
+</div>
+</div>
+</section>
+
+<section class="contact" id="contact"><div class="shell reveal">
+<p class="eyebrow">05 / Start a project</p>
+<h2>Tell us<br>what you're<br><span>building.</span></h2>
+<!-- Add the studio's real contact channel here when it exists (email, form or booking link). -->
+<div class="contact-bottom"><p>The first step is a conversation about the project, so we can scope it.</p></div>
+</div></section>
 </main>
-<footer class="footer shell"><a class="logo" href="#top">ORION<span>®</span></a><span>Branding studio · Independent creative practice</span><a href="#top">Back to top <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20V4m-7 7 7-7 7 7"/></svg></a><small>© 2026 ORION. ALL RIGHTS RESERVED.</small></footer>
+<footer class="footer shell"><a class="logo" href="#top">ORION<span>®</span></a><span>Independent branding studio</span><a href="#top">Back to top <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20V4m-7 7 7-7 7 7"/></svg></a><small>© 2026 Orion. All rights reserved.</small></footer>
+
 <script>
-import { animate, inView } from "motion";
+import { animate, inView, scroll } from "motion";
+
+const root = document.documentElement;
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
-const theme = document.querySelector(".theme");
-theme?.addEventListener("click", () => {
-  const dark = document.documentElement.dataset.theme !== "dark";
-  document.documentElement.dataset.theme = dark ? "dark" : "light";
-  theme.setAttribute("aria-pressed", String(dark));
-  theme.setAttribute("aria-label", dark ? "Switch to light theme" : "Switch to dark theme");
+const canHover = matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+// Critically damped by default. Bounce is reserved for gestures that carry momentum.
+const spring = (duration = 0.6, bounce = 0) => ({ type: "spring" as const, bounce, duration });
+const smooth = [0.22, 1, 0.36, 1] as [number, number, number, number];
+
+/* Theme */
+const themeButton = document.querySelector<HTMLButtonElement>(".theme");
+const themeColor = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
+const syncTheme = () => {
+  const dark = root.dataset.theme === "dark";
+  themeButton?.setAttribute("aria-pressed", String(dark));
+  themeButton?.setAttribute("aria-label", dark ? "Switch to light theme" : "Switch to dark theme");
+  themeColor?.setAttribute("content", dark ? "#0f0f0d" : "#f5f5f2");
+};
+syncTheme();
+themeButton?.addEventListener("click", () => {
+  const next = root.dataset.theme === "dark" ? "light" : "dark";
+  if (!reduceMotion) {
+    root.classList.add("theme-fade");
+    setTimeout(() => root.classList.remove("theme-fade"), 600);
+  }
+  root.dataset.theme = next;
+  try { localStorage.setItem("orion-theme", next); } catch { /* storage can be blocked */ }
+  syncTheme();
 });
-const menu = document.querySelector(".menu"), mobile = document.querySelector("#mobile-menu");
-menu?.addEventListener("click", () => {
-  const open = menu.getAttribute("aria-expanded") === "true";
-  menu.setAttribute("aria-expanded", String(!open));
-  menu.setAttribute("aria-label", open ? "Open menu" : "Close menu");
-  mobile.hidden = open;
+
+/* Header material deepens once content scrolls under it */
+const header = document.querySelector<HTMLElement>(".header");
+const onScroll = () => header?.classList.toggle("is-scrolled", scrollY > 8);
+addEventListener("scroll", onScroll, { passive: true });
+onScroll();
+
+/* Mobile menu. It opens from the button's corner and can be reversed mid-motion. */
+const menuButton = document.querySelector<HTMLButtonElement>(".menu");
+const mobileMenu = document.querySelector<HTMLElement>("#mobile-menu");
+let menuOpen = false;
+const setMenu = (open: boolean) => {
+  if (!menuButton || !mobileMenu) return;
+  menuOpen = open;
+  menuButton.setAttribute("aria-expanded", String(open));
+  menuButton.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+  if (open) {
+    const fresh = mobileMenu.hidden;
+    mobileMenu.hidden = false;
+    if (reduceMotion) animate(mobileMenu, { opacity: fresh ? [0, 1] : 1 }, { duration: 0.15 });
+    else animate(mobileMenu, fresh ? { opacity: [0, 1], scale: [0.96, 1] } : { opacity: 1, scale: 1 }, spring(0.35));
+  } else {
+    const closing = reduceMotion
+      ? animate(mobileMenu, { opacity: 0 }, { duration: 0.12 })
+      : animate(mobileMenu, { opacity: 0, scale: 0.96 }, spring(0.25));
+    closing.finished.then(() => { if (!menuOpen) mobileMenu.hidden = true; });
+  }
+};
+menuButton?.addEventListener("click", () => setMenu(!menuOpen));
+mobileMenu?.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => setMenu(false)));
+addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && menuOpen) { setMenu(false); menuButton?.focus(); }
 });
-mobile?.querySelectorAll("a").forEach(link => link.addEventListener("click", () => {
-  mobile.hidden = true;
-  menu?.setAttribute("aria-expanded", "false");
-  menu?.setAttribute("aria-label", "Open menu");
-}));
-if (!reduceMotion) {
-  const heroTitle = document.querySelector(".hero h1"), heroAside = document.querySelector(".hero-aside");
-  const heroStage = document.querySelector(".hero-stage"), art = document.querySelector("[data-art]");
-  if (heroTitle) animate(heroTitle, { opacity: [0, 1], y: [42, 0], filter: ["blur(12px)", "blur(0px)"] }, { duration: 1.05, ease: [0.22, 1, 0.36, 1] });
-  if (heroAside) animate(heroAside, { opacity: [0, 1], y: [24, 0] }, { duration: .85, delay: .18, ease: [0.22, 1, 0.36, 1] });
-  if (heroStage) animate(heroStage, { opacity: [0, 1], y: [36, 0] }, { duration: 1, delay: .28, ease: [0.22, 1, 0.36, 1] });
-  inView(".reveal", element => animate(element, { opacity: [0, 1], y: [32, 0] }, { duration: .8, ease: [0.22, 1, 0.36, 1] }), { margin: "0px 0px -10% 0px" });
-  if (art && heroStage) {
-    let frame = 0;
-    const updateZoom = () => {
-      if (frame) return;
-      frame = requestAnimationFrame(() => {
-        frame = 0;
-        const rect = heroStage.getBoundingClientRect();
-        const progress = Math.max(0, Math.min(1, (innerHeight - rect.top) / (innerHeight + rect.height * .45)));
-        art.style.transform = "scale(" + (.78 + progress * .38) + ") translateY(" + ((1 - progress) * 34) + "px)";
-      });
-    };
-    addEventListener("scroll", updateZoom, { passive: true });
-    addEventListener("resize", updateZoom);
-    updateZoom();
-    animate(".sphere-dark", { y: [-18, 18], rotate: [0, 16] }, { duration: 5.5, repeat: Infinity, repeatType: "mirror", ease: "easeInOut" });
-    animate(".sphere-light", { y: [14, -14], x: [-8, 8] }, { duration: 4.2, repeat: Infinity, repeatType: "mirror", ease: "easeInOut" });
-    animate(".orbit-a", { rotate: [0, 360] }, { duration: 42, repeat: Infinity, ease: "linear" });
-    animate(".orbit-b", { rotate: [0, -360] }, { duration: 58, repeat: Infinity, ease: "linear" });
+addEventListener("pointerdown", (event) => {
+  const target = event.target;
+  if (menuOpen && target instanceof Node && !mobileMenu?.contains(target) && !menuButton?.contains(target)) setMenu(false);
+});
+
+/* Wayfinding: mark the nav link for the section in view */
+const navLinks = [...document.querySelectorAll<HTMLAnchorElement>(".nav a")];
+const spy = new IntersectionObserver((entries) => {
+  for (const entry of entries) {
+    const link = navLinks.find((item) => item.hash === "#" + entry.target.id);
+    if (!link) continue;
+    if (entry.isIntersecting) link.setAttribute("aria-current", "true");
+    else link.removeAttribute("aria-current");
+  }
+}, { rootMargin: "-45% 0px -50% 0px" });
+navLinks.forEach((link) => {
+  const section = document.querySelector(link.hash);
+  if (section) spy.observe(section);
+});
+
+/* Hero entrance */
+const enter = (element: Element | null, delay = 0) => {
+  if (!element) return;
+  if (reduceMotion) {
+    animate(element, { opacity: [0, 1] }, { duration: 0.4, delay });
+    return;
+  }
+  animate(element, { opacity: [0, 1], y: [40, 0] }, { ...spring(0.9), delay });
+  animate(element, { filter: ["blur(10px)", "blur(0px)"] }, { duration: 0.7, delay, ease: smooth });
+};
+enter(document.querySelector(".hero h1"));
+enter(document.querySelector(".hero-aside"), 0.15);
+enter(document.querySelector(".hero-stage"), 0.25);
+
+/* Scroll reveals, staggered across siblings */
+inView(".reveal", (element) => {
+  if (reduceMotion) {
+    animate(element, { opacity: [0, 1] }, { duration: 0.3 });
+    return;
+  }
+  const siblings = [...(element.parentElement?.children ?? [])].filter((child) => child.classList.contains("reveal"));
+  const delay = Math.max(0, siblings.indexOf(element)) * 0.08;
+  animate(element, { opacity: [0, 1], y: [28, 0] }, { ...spring(0.8), delay });
+}, { margin: "0px 0px -10% 0px" });
+
+/* Hero artwork */
+const heroStage = document.querySelector<HTMLElement>("[data-stage]");
+const art = document.querySelector<HTMLElement>("[data-art]");
+if (heroStage && art && !reduceMotion) {
+  scroll((progress: number) => {
+    const scale = 0.82 + progress * 0.3;
+    art.style.transform = `scale(${scale.toFixed(4)}) translateY(${((1 - progress) * 28).toFixed(2)}px)`;
+  }, { target: heroStage, offset: ["start end", "end start"] });
+
+  // Slow loops (about 0.1 Hz or less) so nothing oscillates near 0.2 Hz.
+  animate(".sphere-dark", { y: [-12, 12], rotate: [0, 12] }, { duration: 9, repeat: Infinity, repeatType: "mirror", ease: "easeInOut" });
+  animate(".sphere-light", { y: [10, -10], x: [-6, 6] }, { duration: 11, repeat: Infinity, repeatType: "mirror", ease: "easeInOut" });
+  animate(".orbit-a", { rotate: [0, 360] }, { duration: 60, repeat: Infinity, ease: "linear" });
+  animate(".orbit-b", { rotate: [0, -360] }, { duration: 80, repeat: Infinity, ease: "linear" });
+  animate(".orbit-c", { rotate: [0, 360] }, { duration: 100, repeat: Infinity, ease: "linear" });
+
+  // Pointer parallax. Each move re-targets the spring from its current value and velocity.
+  if (canHover) {
+    const layers = [...document.querySelectorAll<HTMLElement>("[data-depth]")];
+    heroStage.addEventListener("pointermove", (event) => {
+      const box = heroStage.getBoundingClientRect();
+      const nx = ((event.clientX - box.left) / box.width - 0.5) * 2;
+      const ny = ((event.clientY - box.top) / box.height - 0.5) * 2;
+      for (const layer of layers) {
+        const depth = Number(layer.dataset.depth);
+        animate(layer, { x: -nx * depth, y: -ny * depth }, spring(0.7));
+      }
+    });
+    heroStage.addEventListener("pointerleave", () => {
+      for (const layer of layers) animate(layer, { x: 0, y: 0 }, spring(0.8));
+    });
   }
 }
+
+/* Cursor-following highlight on principle cards */
+if (canHover) {
+  document.querySelectorAll<HTMLElement>(".principle").forEach((card) => {
+    card.addEventListener("pointermove", (event) => {
+      const box = card.getBoundingClientRect();
+      card.style.setProperty("--mx", `${event.clientX - box.left}px`);
+      card.style.setProperty("--my", `${event.clientY - box.top}px`);
+    });
+  });
+}
 </script>
-</body></html>
+</body>
+</html>
