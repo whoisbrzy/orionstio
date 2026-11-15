@@ -5,19 +5,12 @@ import "../styles/global.css";
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#f5f5f2">
+<meta name="theme-color" content="#000000">
+<meta name="color-scheme" content="dark">
 <meta name="description" content="Orion is an independent branding studio. We design brand strategy, identity and digital work, and we quote each project after we scope it.">
 <title>Orion, independent branding studio</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%2311110f'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%23c9f36b'/%3E%3C/svg%3E">
-<script is:inline>
-(function () {
-  var root = document.documentElement, theme;
-  root.classList.add("js");
-  try { theme = localStorage.getItem("orion-theme"); } catch (e) {}
-  if (!theme) theme = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-  root.dataset.theme = theme;
-})();
-</script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%23000'/%3E%3Ccircle cx='16' cy='16' r='13.5' fill='none' stroke='%23fff' stroke-width='1'/%3E%3Ccircle cx='16' cy='16' r='5' fill='%23fff'/%3E%3C/svg%3E">
+<script is:inline>document.documentElement.classList.add("js");</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400..700&display=swap" rel="stylesheet">
@@ -28,7 +21,6 @@ import "../styles/global.css";
 <a class="logo" href="#top" aria-label="Orion home">ORION<span>®</span></a>
 <nav class="nav" aria-label="Main navigation"><a href="#approach">Approach</a><a href="#pricing">Pricing</a><a href="#about">About</a></nav>
 <div class="actions">
-<button class="icon-button theme" aria-label="Switch to dark theme" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.2 15.2A8.5 8.5 0 0 1 8.8 3.8 8.5 8.5 0 1 0 20.2 15.2Z"/></svg></button>
 <a class="nav-cta" href="#contact">Start a project <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M8 5h11v11"/></svg></a>
 <button class="icon-button menu" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu"><span></span><span></span></button>
 </div>
@@ -36,7 +28,6 @@ import "../styles/global.css";
 </header>
 <main id="main">
 <section class="hero shell">
-<p class="kicker"><i></i> Independent branding studio</p>
 <div class="hero-copy">
 <h1>Brand<br><span>identity.</span></h1>
 <div class="hero-aside">
@@ -51,46 +42,43 @@ import "../styles/global.css";
 <div class="stage-label"><span>Orion®</span><span>Branding studio</span></div>
 <div class="composition" data-art aria-hidden="true">
 <div class="depth" data-depth="10"><div class="orbit orbit-a"><i></i></div><div class="orbit orbit-b"><i></i></div><div class="orbit orbit-c"><i></i></div></div>
-<div class="hero-mark">O<span>R</span>ION</div>
+<img class="hero-mark" src="/orion-mark.png" alt="" width="893" height="900" decoding="async">
 <div class="depth depth-front" data-depth="26"><div class="sphere sphere-dark"></div><div class="sphere sphere-light"></div></div>
-<div class="hero-coordinate">O / 01<br>Form study</div>
 </div>
 <div class="stage-label bottom"><span>Strategy, identity, digital</span><span>Scroll <b>↓</b></span></div>
 </div>
 </section>
 
 <section class="intro shell reveal" id="approach">
-<p class="eyebrow">01 / The approach</p>
-<h2>Start with what<br>you need to <span>say.</span></h2>
+<h2 class="section-title">The approach</h2>
+<h3 class="display">Start with what<br>you need to <span>say.</span></h3>
 <p>A brand should tell people who you are and what you do. We remove any design decision that doesn't help with that.</p>
 </section>
 
 <section class="approach shell">
-<div class="section-head reveal"><div><p class="eyebrow">02 / How we decide</p><h2>How we<br><span>make decisions.</span></h2></div><p>Every project follows the same three principles.</p></div>
+<div class="section-head reveal"><div><h2 class="section-title">How we decide</h2><h3 class="display">Three principles<br><span>for every project.</span></h3></div></div>
 <div class="principles">
-<article class="principle reveal"><span class="principle-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="15"/><path d="M24 2v8m0 28v8M2 24h8m28 0h8M24 16v8l6 4"/></svg></span><span class="principle-no">01</span><h3>Purpose first</h3><p>We start with what the business needs to communicate. The strategy decides the design.</p></article>
-<article class="principle reveal"><span class="principle-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M7 36 19 12l9 17 5-9 8 16H7Z"/><circle cx="34" cy="12" r="4"/></svg></span><span class="principle-no">02</span><h3>Distinct, not trendy</h3><p>We build a visual language that belongs to your business instead of following trends.</p></article>
-<article class="principle reveal"><span class="principle-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="7" y="7" width="34" height="34" rx="2"/><path d="M7 19h34M19 19v22m10-22v22"/></svg></span><span class="principle-no">03</span><h3>Made to work</h3><p>The identity has to look consistent everywhere people meet it.</p></article>
+<article class="principle reveal"><span class="principle-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="15"/><path d="M24 2v8m0 28v8M2 24h8m28 0h8M24 16v8l6 4"/></svg></span><h3>Purpose first</h3><p>We start with what the business needs to communicate. The strategy decides the design.</p></article>
+<article class="principle reveal"><span class="principle-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M7 36 19 12l9 17 5-9 8 16H7Z"/><circle cx="34" cy="12" r="4"/></svg></span><h3>Distinct, not trendy</h3><p>We build a visual language that belongs to your business instead of following trends.</p></article>
+<article class="principle reveal"><span class="principle-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="7" y="7" width="34" height="34" rx="2"/><path d="M7 19h34M19 19v22m10-22v22"/></svg></span><h3>Made to work</h3><p>The identity has to look consistent everywhere people meet it.</p></article>
 </div>
 </section>
 
 <section class="pricing" id="pricing"><div class="shell">
-<div class="section-head reveal"><div><p class="eyebrow">03 / Pricing</p><h2>Pricing starts<br>with <span>scope.</span></h2></div><p>There are no fixed packages. We quote each project after we scope it.</p></div>
-<div class="pricing-layout reveal">
-<div class="pricing-lead"><span class="pricing-symbol">€</span><p>Price depends on how much work the project needs. We can't give an honest number until we've defined it.</p></div>
-<div class="pricing-details">
-<div class="price-row"><span>01</span><div><h3>Scope</h3><p>We define the challenge, goals and work required.</p></div><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></div>
-<div class="price-row"><span>02</span><div><h3>Proposal</h3><p>You receive a scope, a timeline and a quote.</p></div><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></div>
-<div class="price-row"><span>03</span><div><h3>Start work</h3><p>Work begins once you agree on the direction and the price.</p></div><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></div>
-</div>
+<div class="section-head reveal"><div><h2 class="section-title">Pricing</h2><h3 class="display">Scope comes<br><span>before the quote.</span></h3></div><p>There are no fixed packages. We quote each project after we scope it.</p></div>
+<div class="pricing-lead reveal"><span class="pricing-symbol">€</span><p>Price depends on how much work the project needs. We can't give an honest number until we've defined it.</p></div>
+<div class="price-cards">
+<article class="price-card reveal"><span class="price-step">Step 1</span><h3>Scope</h3><p>We define the challenge, goals and work required.</p></article>
+<article class="price-card reveal"><span class="price-step">Step 2</span><h3>Proposal</h3><p>You receive a scope, a timeline and a quote.</p></article>
+<article class="price-card reveal"><span class="price-step">Step 3</span><h3>Start work</h3><p>Work begins once you agree on the direction and the price.</p></article>
 </div>
 <p class="pricing-note">You get a quote before any work begins.</p>
 </div></section>
 
 <section class="about shell" id="about">
-<div class="about-top reveal"><p class="eyebrow">04 / About Orion</p></div>
+<div class="about-top reveal"><h2 class="section-title">About Orion</h2></div>
 <div class="about-grid reveal">
-<h2>An independent<br><span>branding studio.</span></h2>
+<h3 class="display">An independent<br><span>branding studio.</span></h3>
 <div>
 <p>Orion helps businesses build a clear, distinctive brand.</p>
 <p>Strategy, identity and digital work happen in the same studio, so the decisions stay consistent from the first idea to the final detail.</p>
@@ -99,8 +87,8 @@ import "../styles/global.css";
 </section>
 
 <section class="contact" id="contact"><div class="shell reveal">
-<p class="eyebrow">05 / Start a project</p>
-<h2>Tell us<br>what you're<br><span>building.</span></h2>
+<h2 class="section-title">Start a project</h2>
+<h3 class="display">Tell us<br>what you're<br><span>building.</span></h3>
 <!-- Add the studio's real contact channel here when it exists (email, form or booking link). -->
 <div class="contact-bottom"><p>The first step is a conversation about the project, so we can scope it.</p></div>
 </div></section>
@@ -110,34 +98,12 @@ import "../styles/global.css";
 <script>
 import { animate, inView, scroll } from "motion";
 
-const root = document.documentElement;
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const canHover = matchMedia("(hover: hover) and (pointer: fine)").matches;
 
 // Critically damped by default. Bounce is reserved for gestures that carry momentum.
 const spring = (duration = 0.6, bounce = 0) => ({ type: "spring" as const, bounce, duration });
 const smooth = [0.22, 1, 0.36, 1] as [number, number, number, number];
-
-/* Theme */
-const themeButton = document.querySelector<HTMLButtonElement>(".theme");
-const themeColor = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
-const syncTheme = () => {
-  const dark = root.dataset.theme === "dark";
-  themeButton?.setAttribute("aria-pressed", String(dark));
-  themeButton?.setAttribute("aria-label", dark ? "Switch to light theme" : "Switch to dark theme");
-  themeColor?.setAttribute("content", dark ? "#0f0f0d" : "#f5f5f2");
-};
-syncTheme();
-themeButton?.addEventListener("click", () => {
-  const next = root.dataset.theme === "dark" ? "light" : "dark";
-  if (!reduceMotion) {
-    root.classList.add("theme-fade");
-    setTimeout(() => root.classList.remove("theme-fade"), 600);
-  }
-  root.dataset.theme = next;
-  try { localStorage.setItem("orion-theme", next); } catch { /* storage can be blocked */ }
-  syncTheme();
-});
 
 /* Header material deepens once content scrolls under it */
 const header = document.querySelector<HTMLElement>(".header");
@@ -250,9 +216,9 @@ if (heroStage && art && !reduceMotion) {
   }
 }
 
-/* Cursor-following highlight on principle cards */
+/* Cursor-following highlight on cards */
 if (canHover) {
-  document.querySelectorAll<HTMLElement>(".principle").forEach((card) => {
+  document.querySelectorAll<HTMLElement>(".principle, .price-card").forEach((card) => {
     card.addEventListener("pointermove", (event) => {
       const box = card.getBoundingClientRect();
       card.style.setProperty("--mx", `${event.clientX - box.left}px`);
