@@ -1,25 +1,102 @@
 ---
 import "../styles/global.css";
-const packages=[{id:"identity",name:"Brand identity",price:"From €850",description:"A clear visual system built around what makes your business distinct.",items:["Logo suite and brand marks","Colour and typography system","Core brand guidelines"]},{id:"digital",name:"Digital design",price:"From €1,200",description:"A considered website direction that gives your brand a strong digital home.",items:["Website art direction","Responsive page design","Developer-ready design files"]},{id:"complete",name:"Complete brand",price:"Custom quote",description:"A joined-up identity and digital presence, planned around your goals.",items:["Brand strategy and identity","Digital design direction","A tailored project scope"]}];
-const projects=[{name:"Identity in motion",type:"Brand identity"},{name:"Form follows feeling",type:"Digital direction"},{name:"A sharper point of view",type:"Campaign identity"}];
 ---
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f5f5f2"><meta name="description" content="Orion is an independent creative studio building clear brand identities and thoughtful digital experiences."><title>Orion® — Independent creative studio</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"></head>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f5f5f2">
+<meta name="description" content="Orion is a branding studio building distinctive identities and thoughtful digital experiences."><title>Orion® — Branding studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
 <body>
-<header class="header" id="top"><a class="logo" href="#top">ORION<span>®</span></a><nav class="nav" aria-label="Main navigation"><a href="#work">Work</a><a href="#pricing">Pricing</a><a href="#about">About</a></nav><div class="actions"><button class="theme" aria-label="Switch colour theme" aria-pressed="false">◐</button><a class="nav-cta" href="#contact">Start a project ↗</a><button class="menu" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu"><span></span><span></span></button></div><nav class="mobile-menu" id="mobile-menu" hidden><a href="#work">Work</a><a href="#pricing">Pricing</a><a href="#about">About</a><a href="#contact">Contact ↗</a></nav></header>
+<header class="header" id="top">
+<a class="logo" href="#top" aria-label="Orion home">ORION<span>®</span></a>
+<nav class="nav" aria-label="Main navigation"><a href="#approach">Approach</a><a href="#pricing">Pricing</a><a href="#about">About</a></nav>
+<div class="actions">
+<button class="icon-button theme" aria-label="Switch to dark theme" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.2 15.2A8.5 8.5 0 0 1 8.8 3.8 8.5 8.5 0 1 0 20.2 15.2Z"/></svg></button>
+<a class="nav-cta" href="#contact">Start a project <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M8 5h11v11"/></svg></a>
+<button class="icon-button menu" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu"><span></span><span></span></button>
+</div>
+<nav class="mobile-menu" id="mobile-menu" hidden><a href="#approach">Approach</a><a href="#pricing">Pricing</a><a href="#about">About</a><a href="#contact">Contact <span>↗</span></a></nav>
+</header>
 <main>
-<section class="hero shell"><p class="kicker"><i></i> Independent creative studio <span>·</span> Working worldwide</p><div class="hero-copy"><h1>Make your<br><span>mark.</span></h1><div class="hero-aside"><p>We build thoughtful identities and digital experiences for businesses ready to move forward.</p><a class="underlink" href="#work">Explore our work ↓</a></div></div>
-<div class="hero-stage" data-stage><div class="stage-label"><span>ORION® / CREATIVE PRACTICE</span><span>EST. FOR WHAT'S NEXT</span></div><div class="composition" data-art><div class="orbit orbit-a"></div><div class="orbit orbit-b"></div><div class="sphere sphere-dark"></div><div class="sphere sphere-light"></div><div class="hero-mark">O<span>R</span>ION</div><small>IDENTITY / 001<br>BUILT TO BE DISTINCT.</small></div><div class="stage-label bottom"><span>STRATEGY / IDENTITY / DIGITAL</span><span>SCROLL TO EXPLORE ↓</span></div></div><div class="hero-foot"><span>GOOD IDEAS DESERVE<br>A CLEAR IDENTITY.</span><span>01 — 06</span></div></section>
-<section class="intro shell reveal"><p class="eyebrow">A CREATIVE PARTNER FOR WHAT'S NEXT</p><h2>Good brands make<br>themselves <span>understood.</span></h2><p>We bring clarity to how your business looks, speaks and shows up. Thoughtful work, made to last.</p></section>
-<section class="work shell" id="work"><div class="section-head reveal"><div><p class="eyebrow">01 / SELECTED WORK</p><h2>Made with<br>intent.</h2></div><p>A look at the kind of thinking<br>we bring to every project.</p></div><div class="projects">{projects.map((project,index)=><article class="project reveal"><a href="#contact"><div class:list={["project-art","art-"+(index+1)]}><small>ORION® / 0{index+1}</small>{index===0?<b>O<span>.</span></b>:index===1?<strong>FORM<br><i>AND</i><br>FUNCTION</strong>:<strong class="shift">SHIFT</strong>}<small class="art-bottom">VISUAL STUDY — 0{index+1}</small></div><div class="project-meta"><div><h3>{project.name}</h3><p>{project.type}</p></div><span>↗</span></div></a></article>)}</div><p class="note">Concept studies shown. Approved client projects will replace these visual studies.</p></section>
-<section class="pricing" id="pricing"><div class="shell"><div class="section-head reveal"><div><p class="eyebrow">02 / PRICING</p><h2>Clear scope.<br><span>Good work.</span></h2></div><p>Choose a starting point.<br>We'll shape the details together.</p></div><div class="pricing-grid reveal"><div class="package-tabs" role="tablist" aria-label="Choose a project package">{packages.map((item,index)=><button class:list={["package-tab",index===0?"active":""]} role="tab" aria-selected={index===0} aria-controls="package-panel" data-id={item.id}><span>0{index+1}</span>{item.name}<b>↗</b></button>)}</div><div class="package-panel" id="package-panel" role="tabpanel"><p class="eyebrow" id="package-number">PACKAGE 01</p><h3 id="package-name">{packages[0].name}</h3><p id="package-description">{packages[0].description}</p><div class="price" id="package-price">{packages[0].price}</div><ul id="package-items">{packages[0].items.map(item=><li>{item}</li>)}</ul><a class="button" href="#contact">Enquire about this ↗</a><small>Final pricing depends on scope, timeline and project needs.</small></div></div></div></section>
-<section class="about shell" id="about"><div class="about-top reveal"><p class="eyebrow">03 / ABOUT ORION</p><span>INDEPENDENT BY DESIGN.</span></div><div class="about-grid reveal"><h2>Small studio.<br><span>Big-picture</span><br>thinking.</h2><div><p>Orion is an independent creative studio for businesses with somewhere to go.</p><p>We focus on the details that make a brand recognisable, useful and ready for its next chapter. No noise. Just considered design and clear decisions.</p><a class="underlink" href="#contact">A little about your project ↗</a></div></div></section>
-<section class="contact" id="contact"><div class="shell reveal"><p class="eyebrow">04 / THE NEXT STEP</p><h2>Have something<br>in <span>mind?</span></h2><div class="contact-bottom"><p>Tell us what you're building.<br>We'll take it from there.</p><a href="mailto:hello@orionstudio.design">Start a conversation ↗</a></div></div></section>
-</main><footer class="footer shell"><a class="logo" href="#top">ORION<span>®</span></a><span>Independent creative studio. Working worldwide.</span><a href="#top">Back to top ↑</a><small>© 2026 ORION. ALL RIGHTS RESERVED.</small></footer>
+<section class="hero shell">
+<p class="kicker"><i></i> Branding studio <span>·</span> Independent creative practice</p>
+<div class="hero-copy"><h1>Make your<br><span>mark.</span></h1><div class="hero-aside"><p>Distinctive brand identities and digital experiences for businesses with something to say.</p><a class="underlink" href="#approach">Discover the Orion approach <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v16m-7-7 7 7 7-7"/></svg></a></div></div>
+<div class="hero-stage" data-stage><div class="stage-label"><span>ORION® / BRANDING STUDIO</span><span>IDENTITY WITH INTENTION</span></div>
+<div class="composition" data-art aria-hidden="true"><div class="orbit orbit-a"></div><div class="orbit orbit-b"></div><div class="orbit orbit-c"></div><div class="sphere sphere-dark"></div><div class="sphere sphere-light"></div><div class="hero-mark">O<span>R</span>ION</div><div class="hero-coordinate">O / 01<br>FORM STUDY</div></div>
+<div class="stage-label bottom"><span>STRATEGY / IDENTITY / DIGITAL</span><span>SCROLL TO EXPLORE <b>↓</b></span></div></div>
+<div class="hero-foot"><span>BUILT TO BE<br>RECOGNISED.</span><span>01 — ORION STUDIO</span></div>
+</section>
+<section class="intro shell reveal" id="approach"><p class="eyebrow">01 / THE APPROACH</p><h2>Clarity makes<br>brands <span>stronger.</span></h2><p>Good branding gives people a reason to recognise you, understand you and remember you. Every decision should earn its place.</p></section>
+<section class="approach shell">
+<div class="section-head reveal"><div><p class="eyebrow">02 / WHAT GUIDES THE WORK</p><h2>Thoughtful by<br>design.</h2></div><p>A clear point of view,<br>from first idea to final detail.</p></div>
+<div class="principles">
+<article class="principle reveal"><span class="principle-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="15"/><path d="M24 2v8m0 28v8M2 24h8m28 0h8M24 16v8l6 4"/></svg></span><span class="principle-no">01</span><h3>Purpose first</h3><p>Start with what the business needs to communicate. Strategy gives the design direction.</p><span class="principle-arrow">↗</span></article>
+<article class="principle reveal"><span class="principle-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M7 36 19 12l9 17 5-9 8 16H7Z"/><circle cx="34" cy="12" r="4"/></svg></span><span class="principle-no">02</span><h3>Distinct by nature</h3><p>Build a recognisable visual language instead of following whatever is trending.</p><span class="principle-arrow">↗</span></article>
+<article class="principle reveal"><span class="principle-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="7" y="7" width="34" height="34" rx="2"/><path d="M7 19h34M19 19v22m10-22v22"/></svg></span><span class="principle-no">03</span><h3>Made to work</h3><p>A brand should hold together across the places people actually encounter it.</p><span class="principle-arrow">↗</span></article>
+</div></section>
+<section class="pricing" id="pricing"><div class="shell">
+<div class="section-head reveal"><div><p class="eyebrow">03 / PRICING</p><h2>Investment with<br><span>intention.</span></h2></div><p>No arbitrary packages or surprise add-ons.<br>Scope comes before a quote.</p></div>
+<div class="pricing-layout reveal"><div class="pricing-lead"><span class="pricing-symbol">€</span><p>Every project is different. Pricing is based on the scope, complexity and deliverables your business actually needs.</p></div>
+<div class="pricing-details">
+<div class="price-row"><span>01</span><div><h3>Scope</h3><p>We define the challenge, goals and work required.</p></div><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></div>
+<div class="price-row"><span>02</span><div><h3>Proposal</h3><p>You receive a clear scope, timeline and project quote.</p></div><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></div>
+<div class="price-row"><span>03</span><div><h3>Make it happen</h3><p>Work begins once the direction and investment are agreed.</p></div><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></div>
+</div></div><p class="pricing-note">A tailored quote is provided before any work begins.</p>
+</div></section>
+<section class="about shell" id="about"><div class="about-top reveal"><p class="eyebrow">04 / ABOUT ORION</p><span>BRANDING STUDIO</span></div>
+<div class="about-grid reveal"><h2>Make it<br><span>mean</span><br>something.</h2><div><p>Orion is a branding studio focused on helping businesses build a clear and distinctive presence.</p><p>From the first strategic question to the final visual detail, the aim is the same: create work with purpose, character and consistency.</p></div></div></section>
+<section class="contact" id="contact"><div class="shell reveal"><p class="eyebrow">05 / START A PROJECT</p><h2>Let's make<br><span>something</span><br>matter.</h2><div class="contact-bottom"><p>Have a project in mind?<br>Get in touch and tell us what you're building.</p><p class="contact-note">Project enquiries<br><span>Contact channel to be supplied.</span></p></div></div></section>
+</main>
+<footer class="footer shell"><a class="logo" href="#top">ORION<span>®</span></a><span>Branding studio · Independent creative practice</span><a href="#top">Back to top <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20V4m-7 7 7-7 7 7"/></svg></a><small>© 2026 ORION. ALL RIGHTS RESERVED.</small></footer>
 <script>
 import { animate, inView } from "motion";
-const theme=document.querySelector(".theme");theme?.addEventListener("click",()=>{const dark=document.documentElement.dataset.theme!=="dark";document.documentElement.dataset.theme=dark?"dark":"light";theme.setAttribute("aria-pressed",String(dark));theme.setAttribute("aria-label",dark?"Switch to light theme":"Switch to dark theme");});
-const menu=document.querySelector(".menu"),mobile=document.querySelector("#mobile-menu");menu?.addEventListener("click",()=>{const open=menu.getAttribute("aria-expanded")==="true";menu.setAttribute("aria-expanded",String(!open));mobile.hidden=open;menu.setAttribute("aria-label",open?"Open menu":"Close menu");});mobile?.querySelectorAll("a").forEach(link=>link.addEventListener("click",()=>{mobile.hidden=true;menu?.setAttribute("aria-expanded","false");}));
-const data=[{id:"identity",name:"Brand identity",price:"From €850",description:"A clear visual system built around what makes your business distinct.",items:["Logo suite and brand marks","Colour and typography system","Core brand guidelines"]},{id:"digital",name:"Digital design",price:"From €1,200",description:"A considered website direction that gives your brand a strong digital home.",items:["Website art direction","Responsive page design","Developer-ready design files"]},{id:"complete",name:"Complete brand",price:"Custom quote",description:"A joined-up identity and digital presence, planned around your goals.",items:["Brand strategy and identity","Digital design direction","A tailored project scope"]}];
-const tabs=[...document.querySelectorAll(".package-tab")];function choose(id){const i=data.findIndex(item=>item.id===id),item=data[i];if(!item)return;tabs.forEach((tab,n)=>{tab.classList.toggle("active",n===i);tab.setAttribute("aria-selected",String(n===i));});document.querySelector("#package-number").textContent="PACKAGE 0"+(i+1);document.querySelector("#package-name").textContent=item.name;document.querySelector("#package-description").textContent=item.description;document.querySelector("#package-price").textContent=item.price;const list=document.querySelector("#package-items");list.replaceChildren(...item.items.map(text=>{const li=document.createElement("li");li.textContent=text;return li;}));}tabs.forEach(tab=>tab.addEventListener("click",()=>choose(tab.dataset.id)));
-if(!matchMedia("(prefers-reduced-motion: reduce)").matches){inView(".reveal",el=>{animate(el,{opacity:[0,1],y:[26,0]},{duration:.7,ease:[.22,1,.36,1]});});const stage=document.querySelector("[data-stage]"),art=document.querySelector("[data-art]");let raf=0;const zoom=()=>{if(!stage||!art||raf)return;raf=requestAnimationFrame(()=>{raf=0;const rect=stage.getBoundingClientRect(),p=Math.max(0,Math.min(1,(innerHeight-rect.top)/(innerHeight+rect.height*.35)));art.style.transform="scale("+(0.82+p*.28)+") translateY("+(1-p)*24+"px)";});};addEventListener("scroll",zoom,{passive:true});addEventListener("resize",zoom);zoom();}
-</script></body></html>
+const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const theme = document.querySelector(".theme");
+theme?.addEventListener("click", () => {
+  const dark = document.documentElement.dataset.theme !== "dark";
+  document.documentElement.dataset.theme = dark ? "dark" : "light";
+  theme.setAttribute("aria-pressed", String(dark));
+  theme.setAttribute("aria-label", dark ? "Switch to light theme" : "Switch to dark theme");
+});
+const menu = document.querySelector(".menu"), mobile = document.querySelector("#mobile-menu");
+menu?.addEventListener("click", () => {
+  const open = menu.getAttribute("aria-expanded") === "true";
+  menu.setAttribute("aria-expanded", String(!open));
+  menu.setAttribute("aria-label", open ? "Open menu" : "Close menu");
+  mobile.hidden = open;
+});
+mobile?.querySelectorAll("a").forEach(link => link.addEventListener("click", () => {
+  mobile.hidden = true;
+  menu?.setAttribute("aria-expanded", "false");
+  menu?.setAttribute("aria-label", "Open menu");
+}));
+if (!reduceMotion) {
+  const heroTitle = document.querySelector(".hero h1"), heroAside = document.querySelector(".hero-aside");
+  const heroStage = document.querySelector(".hero-stage"), art = document.querySelector("[data-art]");
+  if (heroTitle) animate(heroTitle, { opacity: [0, 1], y: [42, 0], filter: ["blur(12px)", "blur(0px)"] }, { duration: 1.05, ease: [0.22, 1, 0.36, 1] });
+  if (heroAside) animate(heroAside, { opacity: [0, 1], y: [24, 0] }, { duration: .85, delay: .18, ease: [0.22, 1, 0.36, 1] });
+  if (heroStage) animate(heroStage, { opacity: [0, 1], y: [36, 0] }, { duration: 1, delay: .28, ease: [0.22, 1, 0.36, 1] });
+  inView(".reveal", element => animate(element, { opacity: [0, 1], y: [32, 0] }, { duration: .8, ease: [0.22, 1, 0.36, 1] }), { margin: "0px 0px -10% 0px" });
+  if (art && heroStage) {
+    let frame = 0;
+    const updateZoom = () => {
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        const rect = heroStage.getBoundingClientRect();
+        const progress = Math.max(0, Math.min(1, (innerHeight - rect.top) / (innerHeight + rect.height * .45)));
+        art.style.transform = "scale(" + (.78 + progress * .38) + ") translateY(" + ((1 - progress) * 34) + "px)";
+      });
+    };
+    addEventListener("scroll", updateZoom, { passive: true });
+    addEventListener("resize", updateZoom);
+    updateZoom();
+    animate(".sphere-dark", { y: [-18, 18], rotate: [0, 16] }, { duration: 5.5, repeat: Infinity, repeatType: "mirror", ease: "easeInOut" });
+    animate(".sphere-light", { y: [14, -14], x: [-8, 8] }, { duration: 4.2, repeat: Infinity, repeatType: "mirror", ease: "easeInOut" });
+    animate(".orbit-a", { rotate: [0, 360] }, { duration: 42, repeat: Infinity, ease: "linear" });
+    animate(".orbit-b", { rotate: [0, -360] }, { duration: 58, repeat: Infinity, ease: "linear" });
+  }
+}
+</script>
+</body></html>
