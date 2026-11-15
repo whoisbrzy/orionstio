@@ -1,0 +1,52 @@
+---
+import "../styles/global.css";
+---
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#000000">
+<meta name="color-scheme" content="dark">
+<meta name="description" content="Selected work by Orion, an independent branding studio.">
+<title>Work — Orion</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%23000'/%3E%3Ccircle cx='16' cy='16' r='13.5' fill='none' stroke='%23fff' stroke-width='1'/%3E%3Ccircle cx='16' cy='16' r='5' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400..700&display=swap" rel="stylesheet">
+</head>
+<body id="top">
+<a class="skip" href="#main">Skip to content</a>
+<header class="header" id="header">
+<a class="logo" href="/" aria-label="Orion home"><img src="/orion-wordmark.webp" alt="" width="480" height="140"></a>
+<nav class="nav" aria-label="Main navigation"><a href="/#approach">Approach</a><a href="/work" aria-current="page">Work</a><a href="/#pricing">Pricing</a><a href="/#about">About</a></nav>
+<div class="actions">
+<a class="nav-cta" href="/#contact">Start a project <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M8 5h11v11"/></svg></a>
+<button class="icon-button menu" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu"><span></span><span></span></button>
+</div>
+<nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation" hidden><a href="/#approach">Approach</a><a href="/work" aria-current="page">Work</a><a href="/#pricing">Pricing</a><a href="/#about">About</a><a href="/#contact">Start a project <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M8 5h11v11"/></svg></a></nav>
+</header>
+<main id="main" aria-label="Work portfolio" style="min-height:calc(100svh - 190px)"></main>
+<footer class="footer shell">
+<span>Independent branding studio</span>
+<a href="#top">Back to top <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20V4m-7 7 7-7 7 7"/></svg></a>
+<img class="footer-wordmark" src="/orion-wordmark-large.webp" alt="Orion" width="1800" height="526" loading="lazy" decoding="async">
+<small>© 2026 Orion. All rights reserved.</small>
+</footer>
+<script>
+const menuButton = document.querySelector(".menu");
+const mobileMenu = document.querySelector("#mobile-menu");
+menuButton?.addEventListener("click", () => {
+  const open = menuButton.getAttribute("aria-expanded") !== "true";
+  menuButton.setAttribute("aria-expanded", String(open));
+  menuButton.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+  mobileMenu.hidden = !open;
+});
+mobileMenu?.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => {
+  mobileMenu.hidden = true;
+  menuButton?.setAttribute("aria-expanded", "false");
+  menuButton?.setAttribute("aria-label", "Open menu");
+}));
+addEventListener("scroll", () => document.querySelector(".header")?.classList.toggle("is-scrolled", scrollY > 8), { passive: true });
+</script>
+</body>
+</html>
