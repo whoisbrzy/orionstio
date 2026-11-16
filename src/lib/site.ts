@@ -25,10 +25,10 @@ export function parseSite(input: unknown): { ok: true; data: SiteData } | { ok: 
     if (!given) { errors.push(`Missing the ${base.name} pack.`); return base; }
     const name = clean(given.name, 40);
     if (!name) errors.push(`${base.name}: name is required.`);
-    const usd = Number(given.usd);
+    const usd = typeof given.usd === "number" ? given.usd : NaN;
     if (!Number.isFinite(usd) || usd < 0 || usd > 1_000_000 || Math.abs(usd * 100 - Math.round(usd * 100)) > 1e-6)
       errors.push(`${base.name}: dollars must be 0 or more, with at most 2 decimals.`);
-    const robux = Number(given.robux);
+    const robux = typeof given.robux === "number" ? given.robux : NaN;
     if (!Number.isInteger(robux) || robux < 0 || robux > 100_000_000) errors.push(`${base.name}: Robux must be a whole number, 0 or more.`);
     const list = Array.isArray(given.includes) ? given.includes : [];
     if (list.length > 12) errors.push(`${base.name}: at most 12 items.`);

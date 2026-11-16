@@ -1,0 +1,35 @@
+---
+import "../../styles/global.css";
+import "../../styles/admin.css";
+if (Astro.locals.admin) return Astro.redirect("/admin");
+const messages: Record<string, string> = {
+  denied: "That Google account does not have access.",
+  failed: "Sign-in did not finish. Please try again.",
+  setup: "Sign-in is not set up yet. The server is missing its Google settings.",
+};
+const error = messages[Astro.url.searchParams.get("error") ?? ""];
+---
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#000000">
+<meta name="color-scheme" content="dark">
+<meta name="robots" content="noindex, nofollow">
+<title>Admin sign in, Orion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400..700&display=swap" rel="stylesheet">
+</head>
+<body>
+<main class="login">
+<div class="login-card">
+<img src="/orion-wordmark.webp" alt="Orion" width="480" height="140">
+<h1>Admin</h1>
+<p>Sign in with the Google account that owns this site.</p>
+{error && <p class="error" role="alert">{error}</p>}
+<a class="google-btn" href="/api/auth/google"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.35 11.1H12v2.98h5.35c-.23 1.4-1.64 4.1-5.35 4.1a5.9 5.9 0 0 1 0-11.8c1.87 0 3.12.8 3.84 1.48l2.62-2.52C17.76 3.8 15.1 2.7 12 2.7a9.3 9.3 0 1 0 0 18.6c5.37 0 8.93-3.77 8.93-9.08 0-.6-.07-1.06-.15-1.12Z"/></svg>Continue with Google</a>
+</div>
+</main>
+</body>
+</html>

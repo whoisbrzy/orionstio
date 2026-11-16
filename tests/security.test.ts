@@ -59,6 +59,8 @@ describe("site data", () => {
       (d: any) => (d.packs[0].usd = 1.234),
       (d: any) => (d.packs[1].robux = 10.5),
       (d: any) => (d.packs[1].robux = "abc"),
+      (d: any) => (d.packs[1].robux = null),
+      (d: any) => (d.packs[0].usd = "29"),
       (d: any) => (d.packs[0].name = "  "),
       (d: any) => (d.packs[0].includes = new Array(13).fill("a")),
       (d: any) => (d.maintenance.enabled = "yes"),

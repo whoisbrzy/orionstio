@@ -1,0 +1,45 @@
+/* Admin panel. Uses the tokens from global.css. */
+.admin{min-height:100svh;display:grid;place-items:start center;padding:3rem 1.25rem 5rem}
+.admin-wrap{width:min(100%,46rem);display:grid;gap:1.25rem}
+.admin-top{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:1rem}
+.admin-top img{height:1.5rem;width:auto;display:block}
+.admin h1{margin:0;font-size:clamp(2rem,6vw,3rem);font-weight:500;letter-spacing:-.04em;line-height:1}
+.admin-sub{margin:.5rem 0 0;color:var(--muted)}
+.panel{display:grid;gap:1rem;padding:1.5rem;border:1px solid var(--line);border-radius:1.25rem;background:var(--card)}
+.panel h2{margin:0;font-size:1.25rem;font-weight:500;letter-spacing:-.02em}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.field{display:grid;gap:.4rem}
+.field label,.field .label{color:var(--muted);font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.field input[type=text],.field input[type=number],.field textarea{width:100%;padding:.8rem .9rem;border:1px solid var(--line);border-radius:.75rem;background:var(--surface);color:var(--ink);font:inherit;font-size:1rem}
+.field textarea{min-height:9rem;resize:vertical;line-height:1.5}
+.field input:focus-visible,.field textarea:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.hint{margin:0;color:var(--muted);font-size:.8125rem}
+.switch{display:flex;align-items:center;justify-content:space-between;gap:1rem;cursor:pointer}
+.switch strong{display:block;font-weight:600}
+.switch span{color:var(--muted);font-size:.875rem}
+.switch input{appearance:none;flex:none;width:3rem;height:1.8rem;border-radius:99px;background:#2a2a2a;position:relative;cursor:pointer;transition:background .2s}
+.switch input::after{content:"";position:absolute;top:.2rem;left:.2rem;width:1.4rem;height:1.4rem;border-radius:50%;background:#fff;transition:transform .25s cubic-bezier(.22,1,.36,1)}
+.switch input:checked{background:#fff}
+.switch input:checked::after{transform:translateX(1.2rem);background:#000}
+.switch input:focus-visible{outline:2px solid var(--focus);outline-offset:3px}
+.status-badge{white-space:nowrap;display:inline-flex;align-items:center;gap:.5rem;padding:.35rem .75rem;border:1px solid var(--line);border-radius:99px;font-size:.8125rem;font-weight:600}
+.status-badge::before{content:"";width:.5rem;height:.5rem;border-radius:50%;background:#4ade80}
+.status-badge[data-on=true]::before{background:#fbbf24}
+.save-bar{position:sticky;bottom:1rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.75rem .75rem .75rem 1.25rem;border:1px solid var(--line);border-radius:99px;background:var(--glass);-webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%)}
+.save-bar p{margin:0;color:var(--muted);font-size:.875rem}
+.save-bar p[data-kind=error]{color:#fca5a5}
+.save-bar p[data-kind=ok]{color:#86efac}
+.admin button.button,.admin a.button{border:0;cursor:pointer;font:inherit;font-size:.8125rem;font-weight:600}
+.admin button.button:disabled{opacity:.5;cursor:default}
+.ghost{padding:.6rem 1rem;border:1px solid var(--line);border-radius:99px;background:none;cursor:pointer;font-size:.8125rem;font-weight:600}
+.ghost:hover{border-color:#ffffff59}
+.login{min-height:100svh;display:grid;place-items:center;padding:1.5rem}
+.login-card{width:min(100%,26rem);display:grid;gap:1.25rem;padding:2rem;border:1px solid var(--line);border-radius:1.25rem;background:var(--card);text-align:center;justify-items:center}
+.login-card img{height:1.75rem;width:auto}
+.login-card h1{margin:0;font-size:1.75rem;font-weight:500;letter-spacing:-.03em}
+.login-card p{margin:0;color:var(--muted);line-height:1.5}
+.login-card .error{color:#fca5a5}
+.google-btn{display:inline-flex;align-items:center;gap:.75rem;padding:.85rem 1.4rem;border-radius:99px;background:#fff;color:#000;font-size:.875rem;font-weight:600;transition:transform .12s ease-out}
+.google-btn:active{transform:scale(.97)}
+.google-btn svg{width:18px;height:18px;fill:currentColor;stroke:none}
+@media (max-width:560px){.row{grid-template-columns:1fr}.save-bar{border-radius:1.25rem;flex-direction:column;align-items:stretch}}
