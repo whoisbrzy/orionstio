@@ -7,18 +7,33 @@ const KEY = "orion:site";
 const TABLE = "site_data";
 
 /**
- * Vercel's Supabase integration adds a prefix of your choice, so the variable can be
- * SUPABASE_URL or, with a prefix, ORION_SUPABASE_URL. Accept either.
+ * Vercel's Supabase integration lets you pick a prefix, so the names can be SUPABASE_URL,
+ * ORION_SUPABASE_URL, ORION_URL and so on. Find the values by name first, then by shape.
  */
-function findEnv(name: string): string | undefined {
-  const exact = env(name);
+const SUPABASE_HOST = /^https:\/\/[a-z0-9-]+\.supabase\.(co|in)\/?$/i;
+const names = () => Object.keys(process.env);
+
+function findUrl(): string | undefined {
+  const exact = env("SUPABASE_URL");
   if (exact) return exact;
-  const match = Object.keys(process.env).find((key) => key.endsWith(`_${name}`) && !key.includes("NEXT_PUBLIC"));
-  return match ? env(match) : undefined;
+  const candidates = names().filter((key) => !key.includes("POSTGRES") && SUPABASE_HOST.test(process.env[key] ?? ""));
+  // Prefer a name that is not the browser-facing copy, though both hold the same address.
+  const key = candidates.find((k) => !k.includes("NEXT_PUBLIC")) ?? candidates[0];
+  return key ? env(key) : undefined;
 }
 
-const base = () => findEnv("SUPABASE_URL")?.replace(/\/$/, "");
-const serviceKey = () => findEnv("SUPABASE_SERVICE_ROLE_KEY");
+function findServiceKey(): string | undefined {
+  const exact = env("SUPABASE_SERVICE_ROLE_KEY");
+  if (exact) return exact;
+  const key = names().find((k) => /SERVICE_ROLE/i.test(k) && !k.includes("NEXT_PUBLIC"));
+  return key ? env(key) : undefined;
+}
+
+const base = () => findUrl()?.replace(/\/$/, "");
+const serviceKey = () => findServiceKey();
+
+/** Names only, never values, to help fix a missing setting. */
+const seenNames = () => names().filter((k) => /SUPABASE|ORION|SERVICE_ROLE/i.test(k)).sort().join(", ") || "none";
 const hasSupabase = () => Boolean(base() && serviceKey());
 
 export const storageMode = () => hasSupabase() ? "supabase" : "file";
@@ -60,7 +75,7 @@ export async function writeSite(data: SiteData): Promise<void> {
     if (!response.ok) throw new Error(`Could not save to Supabase (${response.status}). Check the table exists and the service role key is right.`);
     return;
   }
-  if (process.env.VERCEL) throw new Error("Storage is not connected. Add SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY to this Vercel project.");
+  if (process.env.VERCEL) throw new Error(`Storage is not connected. Found ${base() ? "the Supabase URL" : "no Supabase URL"} and ${serviceKey() ? "a service role key" : "no service role key"}. Variable names seen: ${seenNames()}. Add SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY to this Vercel project and redeploy.`);
   await mkdir(dirname(devFile), { recursive: true });
   await writeFile(devFile, JSON.stringify(data));
 }
