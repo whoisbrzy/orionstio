@@ -7,5 +7,6 @@ export default defineConfig({
   output: "server",
   adapter: vercel(),
   compressHTML: true,
-  security: { checkOrigin: true },
+  // Origin checks are done in the API routes against the real site address, because the request URL on Vercel can show an internal host.
+  security: { checkOrigin: false },
 });

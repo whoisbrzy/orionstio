@@ -1,8 +1,14 @@
 import { env } from "./env";
 
-/** The public address of the site, used to build the Discord redirect address. */
+export const PRODUCTION_URL = "https://orionstdio.vercel.app";
+
+/**
+ * The public address of the site, used for the Discord redirect address and the same-origin check.
+ * On Vercel the request URL can show an internal host such as https://localhost, so it is not trusted there.
+ */
 export function siteOrigin(url: URL): string {
-  return (env("SITE_URL") ?? url.origin).replace(/\/$/, "");
+  const fallback = process.env.VERCEL ? PRODUCTION_URL : url.origin;
+  return (env("SITE_URL") ?? fallback).replace(/\/$/, "");
 }
 export const redirectUri = (url: URL) => `${siteOrigin(url)}/api/auth/callback`;
 export const isSecure = (url: URL) => siteOrigin(url).startsWith("https://");
