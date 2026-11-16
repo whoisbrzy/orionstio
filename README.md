@@ -40,6 +40,7 @@ The page intentionally contains no fabricated client case studies or invented co
 - turn maintenance mode on or off
 - show or hide an announcement banner above the header, with an optional link
 - edit the hero, approach, about and start-a-project text (an empty box restores the original)
+- add, edit, reorder and remove client testimonials (quote, name and optional role). They get their own section on the home page, which stays hidden while the list is empty. Add only real quotes.
 - set the contact button in the Start a project section (an https link or `mailto:`)
 - add, edit, reorder and remove past work. The Work page shows all projects and the home page shows the first four. Images are resized in the browser, checked on the server (PNG, JPEG or WebP, 4 MB at most) and stored in a public Supabase Storage bucket called `work`, which the site creates on the first upload. Removing a project does not delete its image file.
 

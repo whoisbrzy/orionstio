@@ -169,3 +169,34 @@ describe("image sniffing", () => {
   });
   it("limits uploads to 4 MB", () => expect(MAX_IMAGE_BYTES).toBe(4194304));
 });
+
+describe("testimonials", () => {
+  const base = () => structuredClone(DEFAULT_SITE) as any;
+  const t = (over = {}) => ({ id: "t1", quote: "Great work.", name: "Sam", role: "Founder, Acme", ...over });
+  it("defaults to none, and older data still loads", () => {
+    const old = base(); delete old.testimonials;
+    const r = parseSite(old);
+    expect(r.ok && r.data.testimonials).toEqual([]);
+  });
+  it("accepts valid testimonials in order and trims text", () => {
+    const d = base(); d.testimonials = [t({ id: "b", quote: "  Two  " }), t({ id: "a" })];
+    const r = parseSite(d);
+    expect(r.ok && r.data.testimonials.map((x) => x.id)).toEqual(["b", "a"]);
+    expect(r.ok && r.data.testimonials[0].quote).toBe("Two");
+  });
+  it("allows an empty role but not an empty quote or name", () => {
+    const ok = base(); ok.testimonials = [t({ role: "" })]; expect(parseSite(ok).ok).toBe(true);
+    for (const bad of [t({ quote: " " }), t({ name: "" }), t({ id: "Bad Id" }), t({ quote: 5 })]) {
+      const d = base(); d.testimonials = [bad]; expect(parseSite(d).ok).toBe(false);
+    }
+  });
+  it("rejects repeated ids, too many, and non-lists", () => {
+    const dup = base(); dup.testimonials = [t(), t()]; expect(parseSite(dup).ok).toBe(false);
+    const many = base(); many.testimonials = Array.from({ length: LIMITS.testimonials + 1 }, (_, i) => t({ id: `t${i}` })); expect(parseSite(many).ok).toBe(false);
+    const bad = base(); bad.testimonials = "x"; expect(parseSite(bad).ok).toBe(false);
+  });
+  it("cuts overlong quotes to 400 characters", () => {
+    const d = base(); d.testimonials = [t({ quote: "x".repeat(900) })];
+    const r = parseSite(d); expect(r.ok && r.data.testimonials[0].quote.length).toBe(400);
+  });
+});

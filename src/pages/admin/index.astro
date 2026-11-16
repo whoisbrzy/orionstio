@@ -5,6 +5,7 @@ import { readSite } from "../../lib/store";
 const site = await readSite();
 const name = Astro.locals.admin;
 const initial = JSON.stringify(site.projects).replace(/</g, "\\u003c");
+const initialQuotes = JSON.stringify(site.testimonials).replace(/</g, "\\u003c");
 ---
 <html lang="en">
 <head>
@@ -81,6 +82,25 @@ const initial = JSON.stringify(site.projects).replace(/</g, "\\u003c");
 <p class="hint" id="projects-empty" hidden>No projects yet. Click Add project to start.</p>
 </section>
 
+<section class="panel" aria-labelledby="quotes-h">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:1rem"><h2 id="quotes-h">Testimonials</h2><button class="ghost" type="button" id="add-quote">Add testimonial</button></div>
+<p class="hint">Quotes from real clients, shown in their own section on the home page. The section is hidden while the list is empty. Up to 12.</p>
+<div id="quotes" class="projects"></div>
+<p class="hint" id="quotes-empty" hidden>No testimonials yet. Click Add testimonial to start.</p>
+</section>
+
+<template id="quote-template">
+<article class="project">
+<div class="project-head"><strong class="project-title">New testimonial</strong>
+<div class="project-actions"><button type="button" class="ghost" data-action="up" aria-label="Move up">Up</button><button type="button" class="ghost" data-action="down" aria-label="Move down">Down</button><button type="button" class="ghost danger" data-action="remove">Remove</button></div></div>
+<div class="field"><label>Quote</label><textarea data-q="quote" maxlength="400" style="min-height:5rem"></textarea></div>
+<div class="row">
+<div class="field"><label>Name</label><input type="text" data-q="name" maxlength="60"></div>
+<div class="field"><label>Role or company (optional)</label><input type="text" data-q="role" maxlength="60" placeholder="Founder, Acme"></div>
+</div>
+</article>
+</template>
+
 <template id="project-template">
 <article class="project">
 <div class="project-head"><strong class="project-title">New project</strong>
@@ -101,6 +121,7 @@ const initial = JSON.stringify(site.projects).replace(/</g, "\\u003c");
 </form>
 </div></div>
 <script type="application/json" id="initial-projects" is:inline set:html={initial}></script>
+<script type="application/json" id="initial-quotes" is:inline set:html={initialQuotes}></script>
 
 <script>
 const form = document.querySelector<HTMLFormElement>("#site-form")!;
@@ -222,6 +243,53 @@ document.querySelector("#add-project")!.addEventListener("click", () => {
 
 (JSON.parse(document.querySelector("#initial-projects")!.textContent || "[]") as ProjectData[]).forEach((p) => addProject(p));
 
+/* Testimonials */
+interface QuoteData { id: string; quote: string; name: string; role: string }
+const quotes = document.querySelector<HTMLElement>("#quotes")!;
+const quotesEmpty = document.querySelector<HTMLElement>("#quotes-empty")!;
+const quoteTemplate = document.querySelector<HTMLTemplateElement>("#quote-template")!;
+const qInput = (row: HTMLElement, name: string) => row.querySelector<HTMLInputElement | HTMLTextAreaElement>(`[data-q=${name}]`)!;
+
+function refreshQuotes() {
+  const rows = [...quotes.children] as HTMLElement[];
+  rows.forEach((row, i) => {
+    row.querySelector<HTMLElement>(".project-title")!.textContent = `${i + 1}. ${qInput(row, "name").value || "New testimonial"}`;
+    row.querySelector<HTMLButtonElement>("[data-action=up]")!.disabled = i === 0;
+    row.querySelector<HTMLButtonElement>("[data-action=down]")!.disabled = i === rows.length - 1;
+  });
+  quotesEmpty.hidden = rows.length > 0;
+}
+
+function addQuote(q?: Partial<QuoteData>) {
+  const row = quoteTemplate.content.firstElementChild!.cloneNode(true) as HTMLElement;
+  row.dataset.id = q?.id ?? "t" + crypto.randomUUID().replace(/-/g, "").slice(0, 12);
+  qInput(row, "quote").value = q?.quote ?? "";
+  qInput(row, "name").value = q?.name ?? "";
+  qInput(row, "role").value = q?.role ?? "";
+  row.querySelectorAll<HTMLElement>(".field").forEach((f, i) => {
+    const control = f.querySelector<HTMLElement>("[data-q]");
+    const label = f.querySelector("label");
+    if (control && label) { control.id = `${row.dataset.id}-${i}`; label.setAttribute("for", control.id); }
+  });
+  quotes.append(row);
+  refreshQuotes();
+  return row;
+}
+
+quotes.addEventListener("click", (event) => {
+  const button = (event.target as HTMLElement).closest<HTMLElement>("[data-action]");
+  const row = button?.closest<HTMLElement>(".project");
+  if (!button || !row) return;
+  const action = button.dataset.action;
+  if (action === "up" && row.previousElementSibling) row.previousElementSibling.before(row);
+  if (action === "down" && row.nextElementSibling) row.nextElementSibling.after(row);
+  if (action === "remove" && confirm("Remove this testimonial? It goes away when you save.")) row.remove();
+  refreshQuotes();
+});
+quotes.addEventListener("input", (event) => { if ((event.target as HTMLElement).matches("[data-q=name]")) refreshQuotes(); });
+document.querySelector("#add-quote")!.addEventListener("click", () => qInput(addQuote(), "quote").focus());
+(JSON.parse(document.querySelector("#initial-quotes")!.textContent || "[]") as QuoteData[]).forEach((q) => addQuote(q));
+
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
   if (uploads > 0) return;
@@ -238,6 +306,12 @@ form.addEventListener("submit", async (event) => {
     announcement: { enabled: checked("#ann-enabled"), text: value("#ann-text"), linkLabel: value("#ann-link-label"), linkUrl: value("#ann-link-url") },
     contact: { label: value("#contact-label"), url: value("#contact-url") },
     copy: Object.fromEntries([...document.querySelectorAll<HTMLTextAreaElement>("[data-copy]")].map((el) => [el.dataset.copy, el.value])),
+    testimonials: ([...quotes.children] as HTMLElement[]).map((row) => ({
+      id: row.dataset.id,
+      quote: qInput(row, "quote").value,
+      name: qInput(row, "name").value,
+      role: qInput(row, "role").value,
+    })),
     projects: ([...list.children] as HTMLElement[]).map((row) => ({
       id: row.dataset.id,
       name: input(row, "name").value,

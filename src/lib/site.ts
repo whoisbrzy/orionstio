@@ -5,7 +5,8 @@ export interface Project { id: string; name: string; service: string; year: numb
 export interface Contact { label: string; url: string }
 export interface Announcement { enabled: boolean; text: string; linkLabel: string; linkUrl: string }
 export interface Copy { hero: string; intro: string; about1: string; about2: string; contact: string }
-export interface SiteData { packs: Pack[]; maintenance: Maintenance; projects: Project[]; contact: Contact; announcement: Announcement; copy: Copy }
+export interface Testimonial { id: string; quote: string; name: string; role: string }
+export interface SiteData { packs: Pack[]; maintenance: Maintenance; projects: Project[]; testimonials: Testimonial[]; contact: Contact; announcement: Announcement; copy: Copy }
 
 export const DEFAULT_MESSAGE = "We are making some changes and will be back soon.";
 
@@ -16,6 +17,7 @@ export const DEFAULT_SITE: SiteData = {
   ],
   maintenance: { enabled: false, message: DEFAULT_MESSAGE },
   projects: [],
+  testimonials: [],
   contact: { label: "Contact us", url: "" },
   announcement: { enabled: false, text: "", linkLabel: "", linkUrl: "" },
   copy: {
@@ -27,7 +29,7 @@ export const DEFAULT_SITE: SiteData = {
   },
 };
 
-export const LIMITS = { projects: 24, copy: 400, announcement: 160 };
+export const LIMITS = { projects: 24, testimonials: 12, copy: 400, announcement: 160 };
 
 /** Only https links, mailto links (when allowed) and links inside this site. Anything else, like javascript:, is rejected. */
 export function safeUrl(value: unknown, opts: { mailto?: boolean; image?: boolean } = {}): string | null {
@@ -98,6 +100,26 @@ export function parseSite(input: unknown): { ok: true; data: SiteData } | { ok: 
     }
   }
 
+  let testimonials: Testimonial[] = d.testimonials;
+  if (raw.testimonials !== undefined) {
+    if (!Array.isArray(raw.testimonials)) errors.push("Testimonials must be a list.");
+    else {
+      if (raw.testimonials.length > LIMITS.testimonials) errors.push(`At most ${LIMITS.testimonials} testimonials.`);
+      const seen = new Set<string>();
+      testimonials = raw.testimonials.slice(0, LIMITS.testimonials).map((t, i) => {
+        const label = `Testimonial ${i + 1}`;
+        const id = typeof t?.id === "string" && /^[a-z0-9-]{1,40}$/.test(t.id) ? t.id : "";
+        if (!id || seen.has(id)) errors.push(`${label}: invalid or repeated id.`);
+        seen.add(id);
+        const quote = clean(t?.quote, 400);
+        const name = clean(t?.name, 60);
+        if (!quote) errors.push(`${label}: the quote is required.`);
+        if (!name) errors.push(`${label}: the name is required.`);
+        return { id, quote, name, role: clean(t?.role, 60) };
+      });
+    }
+  }
+
   let contact: Contact = d.contact;
   if (raw.contact !== undefined) {
     const url = safeUrl(raw.contact?.url, { mailto: true });
@@ -126,7 +148,7 @@ export function parseSite(input: unknown): { ok: true; data: SiteData } | { ok: 
   }
 
   if (errors.length) return { ok: false, errors };
-  return { ok: true, data: { packs, maintenance: { enabled: m!.enabled, message }, projects, contact, announcement, copy } };
+  return { ok: true, data: { packs, maintenance: { enabled: m!.enabled, message }, projects, testimonials, contact, announcement, copy } };
 }
 
 export const formatUsd = (usd: number) => `$${Number.isInteger(usd) ? usd : usd.toFixed(2)}`;

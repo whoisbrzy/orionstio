@@ -214,3 +214,13 @@ h1,.display{text-wrap:balance}
 .announce a{display:inline-flex;align-items:center;gap:.4rem;text-decoration:underline;text-underline-offset:3px}
 .announce svg{width:12px;height:12px}
 .contact-bottom{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1.5rem}
+
+/* Testimonials */
+.testimonials{padding-top:clamp(4rem,10vw,8rem)}
+.quotes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,20rem),1fr));gap:1rem}
+.quote{display:flex;flex-direction:column;justify-content:space-between;gap:2rem;margin:0;padding:1.75rem;border:1px solid var(--line);border-radius:1.25rem;background:var(--card)}
+.quote blockquote{margin:0}
+.quote p{margin:0;font-size:1.125rem;line-height:1.55;letter-spacing:-.01em}
+.quote figcaption{display:grid;gap:.2rem;font-size:.9375rem}
+.quote figcaption strong{font-weight:600}
+.quote figcaption span{color:var(--muted)}

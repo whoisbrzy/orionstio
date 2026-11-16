@@ -5,7 +5,7 @@ import { formatRobux, formatUsd } from "../lib/site";
 import Announcement from "../components/Announcement.astro";
 import ProjectGrid from "../components/ProjectGrid.astro";
 
-const { packs, projects, contact, announcement, copy } = Astro.locals.site ?? await readSite();
+const { packs, projects, testimonials, contact, announcement, copy } = Astro.locals.site ?? await readSite();
 const description = `Orion is an independent branding studio. We design brand strategy, identity and digital work. ${packs
   .map((pack) => `${pack.name} costs ${formatUsd(pack.usd)} or ${formatRobux(pack.robux)}`)
   .join(". ")}.`;
@@ -95,6 +95,20 @@ const description = `Orion is an independent branding studio. We design brand st
   {projects.length > 0 && <ProjectGrid projects={projects.slice(0, 4)} />}
 </section>
 
+
+{testimonials.length > 0 && (
+<section class="testimonials shell" id="testimonials">
+  <div class="section-head reveal"><div><h2 class="section-title">Testimonials</h2><h3 class="display">What clients<br><span>say.</span></h3></div></div>
+  <div class="quotes">
+    {testimonials.map((t) => (
+      <figure class="quote reveal">
+        <blockquote><p>{t.quote}</p></blockquote>
+        <figcaption><strong>{t.name}</strong>{t.role && <span>{t.role}</span>}</figcaption>
+      </figure>
+    ))}
+  </div>
+</section>
+)}
 
 <section class="pricing" id="pricing"><div class="shell">
 <div class="section-head reveal"><div><h2 class="section-title">Pricing</h2><h3 class="display">Choose a<br><span>pack.</span></h3></div><p>You can pay for each pack in dollars or Robux.</p></div>
