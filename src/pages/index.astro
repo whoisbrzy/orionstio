@@ -1,5 +1,12 @@
 ---
 import "../styles/global.css";
+import { readSite } from "../lib/store";
+import { formatRobux, formatUsd } from "../lib/site";
+
+const { packs } = await readSite();
+const description = `Orion is an independent branding studio. We design brand strategy, identity and digital work. ${packs
+  .map((pack) => `${pack.name} costs ${formatUsd(pack.usd)} or ${formatRobux(pack.robux)}`)
+  .join(". ")}.`;
 ---
 <html lang="en">
 <head>
@@ -20,7 +27,7 @@ import "../styles/global.css";
 <meta name="twitter:description" content="Strategy, identity and digital work for businesses with something to say.">
 <meta name="twitter:image" content="https://orionstdio.vercel.app/hero-banner.webp">
 <link rel="discord:component-embed" type="application/json" href="https://orionstdio.vercel.app/discord-embed.json">
-<meta name="description" content="Orion is an independent branding studio. We design brand strategy, identity and digital work. Packs cost $29 or 2,400 Robux for Mini and $49 or 5,000 Robux for Core.">
+<meta name="description" content={description}>
 <title>Orion, independent branding studio</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%23000'/%3E%3Ccircle cx='16' cy='16' r='13.5' fill='none' stroke='%23fff' stroke-width='1'/%3E%3Ccircle cx='16' cy='16' r='5' fill='%23fff'/%3E%3C/svg%3E">
 <script is:inline>document.documentElement.classList.add("js");</script>
@@ -87,31 +94,13 @@ import "../styles/global.css";
 <section class="pricing" id="pricing"><div class="shell">
 <div class="section-head reveal"><div><h2 class="section-title">Pricing</h2><h3 class="display">Choose a<br><span>pack.</span></h3></div><p>You can pay for each pack in dollars or Robux.</p></div>
 <div class="price-cards">
+{packs.map((pack) => (
 <article class="price-card reveal">
-  <h3>Mini</h3>
-  <p class="price"><strong>$29</strong><span>or 2,400 Robux</span></p>
-  <ul class="package-list">
-    <li>Custom brand logo</li>
-    <li>Brand color palette</li>
-    <li>Typography selection</li>
-    <li>Visual identity direction</li>
-    <li>Brand assets and exports</li>
-    <li>Mini brand guidelines</li>
-  </ul>
+  <h3>{pack.name}</h3>
+  <p class="price"><strong>{formatUsd(pack.usd)}</strong><span>or {formatRobux(pack.robux)}</span></p>
+  {pack.includes.length > 0 && <ul class="package-list">{pack.includes.map((item) => <li>{item}</li>)}</ul>}
 </article>
-<article class="price-card reveal">
-  <h3>Core</h3>
-  <p class="price"><strong>$49</strong><span>or 5,000 Robux</span></p>
-  <ul class="package-list">
-    <li>Custom brand logo</li>
-    <li>Logo variations and alternatives</li>
-    <li>Complete brand color system</li>
-    <li>Typography system</li>
-    <li>Supporting visual elements</li>
-    <li>Extended brand guidelines</li>
-    <li>Full brand asset package</li>
-  </ul>
-</article>
+))}
 </div>
 </div></section>
 

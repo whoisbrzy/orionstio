@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import { projects } from "../data/work";
 ---
 <html lang="en">
 <head>
@@ -25,7 +26,26 @@ import "../styles/global.css";
 </div>
 <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation" hidden><a href="/#approach">Approach</a><a href="/work" aria-current="page">Work</a><a href="/#pricing">Pricing</a><a href="/#about">About</a><a href="/#contact">Start a project <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M8 5h11v11"/></svg></a></nav>
 </header>
-<main id="main" aria-label="Work portfolio" style="min-height:calc(100svh - 190px)"></main>
+<main id="main" aria-label="Work portfolio">
+<section class="shell work-head">
+<h1 class="work-title">Past<br><span>work.</span></h1>
+<p>A selection of brands we have built.</p>
+</section>
+<section class="shell work-list" aria-label="Projects">
+{projects.length === 0 ? (
+<div class="work-empty"><h2>Projects are coming soon.</h2><p>We are putting the first case studies together. In the meantime, tell us what you are building.</p><a class="button" href="/#contact">Start a project <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M8 5h11v11"/></svg></a></div>
+) : (
+<div class="work-grid">
+{projects.map((project) => (
+<article class="work-card">
+{project.image && <img src={project.image} alt={project.imageAlt ?? `${project.name}, ${project.service}`} loading="lazy" decoding="async">}
+<div class="work-meta"><span>{project.service} · {project.year}</span><h2>{project.name}</h2><p>{project.summary}</p></div>
+</article>
+))}
+</div>
+)}
+</section>
+</main>
 <footer class="footer shell">
 <span>Independent branding studio</span>
 <a href="#top">Back to top <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20V4m-7 7 7-7 7 7"/></svg></a>
