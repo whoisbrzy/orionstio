@@ -6,8 +6,19 @@ import { DEFAULT_SITE, parseSite, type SiteData } from "./site";
 const KEY = "orion:site";
 const TABLE = "site_data";
 
-const base = () => env("SUPABASE_URL")?.replace(/\/$/, "");
-const serviceKey = () => env("SUPABASE_SERVICE_ROLE_KEY");
+/**
+ * Vercel's Supabase integration adds a prefix of your choice, so the variable can be
+ * SUPABASE_URL or, with a prefix, ORION_SUPABASE_URL. Accept either.
+ */
+function findEnv(name: string): string | undefined {
+  const exact = env(name);
+  if (exact) return exact;
+  const match = Object.keys(process.env).find((key) => key.endsWith(`_${name}`) && !key.includes("NEXT_PUBLIC"));
+  return match ? env(match) : undefined;
+}
+
+const base = () => findEnv("SUPABASE_URL")?.replace(/\/$/, "");
+const serviceKey = () => findEnv("SUPABASE_SERVICE_ROLE_KEY");
 const hasSupabase = () => Boolean(base() && serviceKey());
 
 export const storageMode = () => hasSupabase() ? "supabase" : "file";
