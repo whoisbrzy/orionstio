@@ -1,6 +1,10 @@
 ---
 import "../styles/global.css";
-import { projects } from "../data/work";
+import { readSite } from "../lib/store";
+import Announcement from "../components/Announcement.astro";
+import ProjectGrid from "../components/ProjectGrid.astro";
+
+const { projects, announcement } = Astro.locals.site ?? await readSite();
 ---
 <html lang="en">
 <head>
@@ -16,6 +20,7 @@ import { projects } from "../data/work";
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400..700&display=swap" rel="stylesheet">
 </head>
 <body id="top">
+<Announcement announcement={announcement} />
 <a class="skip" href="#main">Skip to content</a>
 <header class="header" id="header">
 <a class="logo" href="/" aria-label="Orion home"><img src="/orion-wordmark.webp" alt="" width="480" height="140"></a>
@@ -35,14 +40,7 @@ import { projects } from "../data/work";
 {projects.length === 0 ? (
 <div class="work-empty"><h2>Projects are coming soon.</h2><p>We are putting the first case studies together. In the meantime, tell us what you are building.</p><a class="button" href="/#contact">Start a project <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M8 5h11v11"/></svg></a></div>
 ) : (
-<div class="work-grid">
-{projects.map((project) => (
-<article class="work-card">
-{project.image && <img src={project.image} alt={project.imageAlt ?? `${project.name}, ${project.service}`} loading="lazy" decoding="async">}
-<div class="work-meta"><span>{project.service} · {project.year}</span><h2>{project.name}</h2><p>{project.summary}</p></div>
-</article>
-))}
-</div>
+<ProjectGrid projects={projects} />
 )}
 </section>
 </main>

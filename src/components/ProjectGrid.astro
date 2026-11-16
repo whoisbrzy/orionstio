@@ -1,0 +1,13 @@
+---
+import type { Project } from "../lib/site";
+interface Props { projects: Project[] }
+const { projects } = Astro.props;
+---
+<div class="work-grid">
+{projects.map((project) => (
+  <article class="work-card">
+    {project.image && <img src={project.image} alt={`${project.name}, ${project.service}`} loading="lazy" decoding="async">}
+    <div class="work-meta"><span>{[project.service, project.year].filter(Boolean).join(" · ")}</span><h2>{project.name}</h2>{project.summary && <p>{project.summary}</p>}</div>
+  </article>
+))}
+</div>

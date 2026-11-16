@@ -2,8 +2,10 @@
 import "../styles/global.css";
 import { readSite } from "../lib/store";
 import { formatRobux, formatUsd } from "../lib/site";
+import Announcement from "../components/Announcement.astro";
+import ProjectGrid from "../components/ProjectGrid.astro";
 
-const { packs } = await readSite();
+const { packs, projects, contact, announcement, copy } = Astro.locals.site ?? await readSite();
 const description = `Orion is an independent branding studio. We design brand strategy, identity and digital work. ${packs
   .map((pack) => `${pack.name} costs ${formatUsd(pack.usd)} or ${formatRobux(pack.robux)}`)
   .join(". ")}.`;
@@ -36,6 +38,7 @@ const description = `Orion is an independent branding studio. We design brand st
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400..700&display=swap" rel="stylesheet">
 </head>
 <body>
+<Announcement announcement={announcement} />
 <a class="skip" href="#main">Skip to content</a>
 <header class="header" id="top">
 <a class="logo" href="#top" aria-label="Orion home"><img src="/orion-wordmark.webp" alt="" width="480" height="140"></a>
@@ -51,7 +54,7 @@ const description = `Orion is an independent branding studio. We design brand st
 <div class="hero-copy">
 <h1>Brand<br><span>identity.</span></h1>
 <div class="hero-aside">
-<p>We design brand strategy, identity and digital work for businesses that have something to say.</p>
+<p>{copy.hero}</p>
 <div class="hero-actions">
 <a class="button" href="#contact">Start a project <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M8 5h11v11"/></svg></a>
 <a class="underlink" href="#approach">How we work <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v16m-7-7 7 7 7-7"/></svg></a>
@@ -68,7 +71,7 @@ const description = `Orion is an independent branding studio. We design brand st
 <section class="intro shell reveal" id="approach">
 <h2 class="section-title">The approach</h2>
 <h3 class="display">Start with what<br>you need to <span>say.</span></h3>
-<p>A brand should tell people who you are and what you do. We remove any design decision that doesn't help with that.</p>
+<p>{copy.intro}</p>
 </section>
 
 <section class="approach shell">
@@ -85,9 +88,11 @@ const description = `Orion is an independent branding studio. We design brand st
   <div class="section-head reveal">
     <div>
       <h2 class="section-title">Selected work</h2>
-      <h3 class="display">Nothing to see <span>👀</span></h3>
+      {projects.length > 0 ? <h3 class="display">Recent<br><span>projects.</span></h3> : <h3 class="display">Nothing to see <span>👀</span></h3>}
     </div>
+    {projects.length > 4 && <a class="underlink" href="/work">See all work <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M8 5h11v11"/></svg></a>}
   </div>
+  {projects.length > 0 && <ProjectGrid projects={projects.slice(0, 4)} />}
 </section>
 
 
@@ -109,8 +114,8 @@ const description = `Orion is an independent branding studio. We design brand st
 <div class="about-grid reveal">
 <h3 class="display">An independent<br><span>branding studio.</span></h3>
 <div>
-<p>Orion helps businesses build a clear, distinctive brand.</p>
-<p>Strategy, identity and digital work happen in the same studio, so the decisions stay consistent from the first idea to the final detail.</p>
+<p>{copy.about1}</p>
+<p>{copy.about2}</p>
 </div>
 </div>
 </section>
@@ -118,8 +123,7 @@ const description = `Orion is an independent branding studio. We design brand st
 <section class="contact" id="contact"><div class="shell reveal">
 <h2 class="section-title">Start a project</h2>
 <h3 class="display">Tell us<br>what you're<br><span>building.</span></h3>
-<!-- Add the studio's real contact channel here when it exists (email, form or booking link). -->
-<div class="contact-bottom"><p>The first step is a conversation about the project, so we can scope it.</p></div>
+<div class="contact-bottom"><p>{copy.contact}</p>{contact.url && <a class="button" href={contact.url} rel="noopener">{contact.label} <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M8 5h11v11"/></svg></a>}</div>
 </div></section>
 </main>
 <footer class="footer shell">

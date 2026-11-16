@@ -32,13 +32,19 @@ npm run preview
 
 The page intentionally contains no fabricated client case studies or invented contact address. The pack prices come from the studio. Add what each pack includes, verified portfolio material and the studio's real contact channel when those details are available.
 
-## Past work
-
-`/work` lists projects from `src/data/work.ts`. The array is empty, so the page shows a "coming soon" state. Add real projects there (name, service, year, summary, and an image in `public/work/`) when they exist.
-
 ## Admin panel
 
-`/admin` is protected by Discord sign-in and only lets in one Discord user ID (`1366813770344829131`, or whatever `ADMIN_DISCORD_ID` is set to). From there you can edit the Mini and Core names, dollar and Robux prices, and what each pack includes, and turn maintenance mode on or off. Maintenance mode shows visitors a "back soon" page (HTTP 503). You still see the real site while signed in.
+`/admin` is protected by Discord sign-in and only lets in one Discord user ID (`1366813770344829131`, or whatever `ADMIN_DISCORD_ID` is set to). From there you can:
+
+- edit the Mini and Core names, dollar and Robux prices, and what each pack includes
+- turn maintenance mode on or off
+- show or hide an announcement banner above the header, with an optional link
+- edit the hero, approach, about and start-a-project text (an empty box restores the original)
+- set the contact button in the Start a project section (an https link or `mailto:`)
+- add, edit, reorder and remove past work. The Work page shows all projects and the home page shows the first four. Images are resized in the browser, checked on the server (PNG, JPEG or WebP, 4 MB at most) and stored in a public Supabase Storage bucket called `work`, which the site creates on the first upload. Removing a project does not delete its image file.
+
+Links are limited to `https://`, `mailto:` (contact only) and paths on this site, so a pasted `javascript:` link is rejected.
+ Maintenance mode shows visitors a "back soon" page (HTTP 503). You still see the real site while signed in.
 
 The site renders on the server (Astro with the Vercel adapter) and reads pack data from storage on each request.
 

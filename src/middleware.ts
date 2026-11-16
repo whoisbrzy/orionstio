@@ -26,9 +26,11 @@ export const onRequest = defineMiddleware(async (context, next) => {
   }
 
   // Maintenance mode covers the public pages. The signed-in admin still sees the real site.
-  if (!isAdminArea && !isAdminApi && !isAuthRoute && !locals.admin) {
-    const { maintenance } = await readSite();
-    if (maintenance.enabled) {
+  if (!isAdminArea && !isAdminApi && !isAuthRoute) {
+    const site = await readSite();
+    locals.site = site;
+    const { maintenance } = site;
+    if (maintenance.enabled && !locals.admin) {
       return new Response(maintenanceHtml(maintenance.message), {
         status: 503,
         headers: { "content-type": "text/html; charset=utf-8", "retry-after": "3600", "cache-control": "no-store" },

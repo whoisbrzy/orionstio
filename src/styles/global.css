@@ -196,7 +196,7 @@ h1,.display{text-wrap:balance}
 .work-title span{color:var(--muted)}
 .work-head p{margin:0;color:var(--muted);font-size:1rem}
 .work-list{padding-top:1rem}
-.work-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
+.work-grid{align-items:start;display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
 .work-card{overflow:hidden;border:1px solid var(--line);border-radius:1.25rem;background:var(--card);transition:border-color .25s ease}
 .work-card:hover{border-color:#ffffff59}
 .work-card img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover}
@@ -208,3 +208,9 @@ h1,.display{text-wrap:balance}
 .work-empty h2{margin:0;font-size:1.6rem;font-weight:500;letter-spacing:-.025em}
 .work-empty p{margin:0 0 .5rem;max-width:32rem;color:var(--muted);line-height:1.6}
 @media (max-width:760px){.work-grid{grid-template-columns:1fr}.work-empty{padding:1.75rem}.work-head{padding-top:7rem}}
+
+/* Announcement bar */
+.announce{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:.4rem 1rem;padding:.6rem 1.25rem;background:var(--ink);color:var(--bg);font-size:.8125rem;font-weight:600;text-align:center}
+.announce a{display:inline-flex;align-items:center;gap:.4rem;text-decoration:underline;text-underline-offset:3px}
+.announce svg{width:12px;height:12px}
+.contact-bottom{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1.5rem}

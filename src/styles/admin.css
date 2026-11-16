@@ -43,3 +43,16 @@
 .oauth-btn:active{transform:scale(.97)}
 .oauth-btn svg{width:18px;height:18px;fill:currentColor;stroke:none}
 @media (max-width:560px){.row{grid-template-columns:1fr}.save-bar{border-radius:1.25rem;flex-direction:column;align-items:stretch}}
+
+/* Projects */
+.projects{display:grid;gap:1rem}
+.project{display:grid;gap:1rem;padding:1.1rem;border:1px solid var(--line);border-radius:1rem;background:var(--surface)}
+.project-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.75rem}
+.project-actions{display:flex;gap:.5rem}
+.project .ghost{padding:.45rem .8rem}
+.ghost:disabled{opacity:.35;cursor:default}
+.ghost.danger:hover{border-color:#fca5a5;color:#fca5a5}
+.image-row{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap}
+.thumb{width:5rem;height:3.25rem;object-fit:cover;border-radius:.5rem;border:1px solid var(--line)}
+.file{display:inline-block;cursor:pointer}
+.file:focus-within{outline:2px solid var(--focus);outline-offset:2px}

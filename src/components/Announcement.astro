@@ -1,0 +1,11 @@
+---
+import type { Announcement } from "../lib/site";
+interface Props { announcement: Announcement }
+const { announcement: a } = Astro.props;
+---
+{a.enabled && a.text && (
+  <div class="announce" role="status">
+    <span>{a.text}</span>
+    {a.linkUrl && <a href={a.linkUrl} rel="noopener">{a.linkLabel || "Learn more"} <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M8 5h11v11"/></svg></a>}
+  </div>
+)}

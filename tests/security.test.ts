@@ -91,3 +91,81 @@ describe("site data", () => {
     expect(r.ok && r.data.maintenance.message).toBe(DEFAULT_SITE.maintenance.message);
   });
 });
+
+import { LIMITS, safeUrl } from "../src/lib/site";
+
+describe("links", () => {
+  it("allows https, site paths, anchors and (when allowed) mailto", () => {
+    expect(safeUrl("https://discord.gg/abc")).toBe("https://discord.gg/abc");
+    expect(safeUrl("/work")).toBe("/work");
+    expect(safeUrl("#contact")).toBe("#contact");
+    expect(safeUrl("")).toBe("");
+    expect(safeUrl("mailto:hi@orion.test", { mailto: true })).toBe("mailto:hi@orion.test");
+  });
+  it("rejects script, data, http, protocol-relative and spaced links", () => {
+    for (const bad of ["javascript:alert(1)", "JaVaScRiPt:alert(1)", "data:text/html,x", "http://x.test", "//evil.test", "https://a b.test", "ftp://x.test", "mailto:a@b.c", "/\\evil.test", "/\\/evil.test", 5, null])
+      expect(safeUrl(bad as any)).toBeNull();
+    expect(safeUrl("mailto:bad", { mailto: true })).toBeNull();
+  });
+  it("limits images to https or the local uploads folder", () => {
+    expect(safeUrl("https://x.supabase.co/a.webp", { image: true })).toBe("https://x.supabase.co/a.webp");
+    expect(safeUrl("/uploads/a1-b.webp", { image: true })).toBe("/uploads/a1-b.webp");
+    expect(safeUrl("/uploads/../secret", { image: true })).toBeNull();
+    expect(safeUrl("/other.png", { image: true })).toBeNull();
+    expect(safeUrl("javascript:1", { image: true })).toBeNull();
+  });
+});
+
+describe("extended site data", () => {
+  const base = () => structuredClone(DEFAULT_SITE) as any;
+  const project = (over = {}) => ({ id: "acme", name: "Acme", service: "Brand identity", year: 2026, summary: "A brand.", image: "", ...over });
+
+  it("loads data saved before these sections existed", () => {
+    const old = base(); delete old.projects; delete old.contact; delete old.announcement; delete old.copy;
+    const r = parseSite(old);
+    expect(r.ok && r.data.copy.hero).toBe(DEFAULT_SITE.copy.hero);
+    expect(r.ok && r.data.projects).toEqual([]);
+  });
+  it("accepts valid projects and keeps their order", () => {
+    const d = base(); d.projects = [project({ id: "b", name: "B" }), project({ id: "a", name: "A" })];
+    const r = parseSite(d);
+    expect(r.ok && r.data.projects.map((p) => p.id)).toEqual(["b", "a"]);
+  });
+  it("rejects bad projects", () => {
+    for (const bad of [project({ name: " " }), project({ year: 1900 }), project({ year: "2026" }), project({ id: "Bad Id" }), project({ image: "javascript:x" }), project({ image: "http://x.test/a.png" })]) {
+      const d = base(); d.projects = [bad]; expect(parseSite(d).ok).toBe(false);
+    }
+    const dup = base(); dup.projects = [project(), project()]; expect(parseSite(dup).ok).toBe(false);
+    const many = base(); many.projects = Array.from({ length: LIMITS.projects + 1 }, (_, i) => project({ id: `p${i}` })); expect(parseSite(many).ok).toBe(false);
+  });
+  it("validates contact, announcement and text", () => {
+    const d = base(); d.contact = { label: "Discord", url: "https://discord.gg/x" }; expect(parseSite(d).ok).toBe(true);
+    d.contact = { label: "x", url: "javascript:alert(1)" }; expect(parseSite(d).ok).toBe(false);
+    const a = base(); a.announcement = { enabled: true, text: "", linkLabel: "", linkUrl: "" }; expect(parseSite(a).ok).toBe(false);
+    a.announcement = { enabled: true, text: "Open for projects", linkLabel: "See work", linkUrl: "/work" }; expect(parseSite(a).ok).toBe(true);
+    a.announcement.linkUrl = "javascript:1"; expect(parseSite(a).ok).toBe(false);
+    const c = base(); c.copy.hero = "  "; const r = parseSite(c);
+    expect(r.ok && r.data.copy.hero).toBe(DEFAULT_SITE.copy.hero);
+    c.copy.hero = 5; expect(parseSite(c).ok).toBe(false);
+  });
+});
+
+import { MAX_IMAGE_BYTES, sniffImage } from "../src/lib/upload";
+
+describe("image sniffing", () => {
+  const pad = (head: number[]) => new Uint8Array([...head, ...new Array(20).fill(0)]);
+  it("recognises PNG, JPEG and WebP by their first bytes", () => {
+    expect(sniffImage(pad([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]))?.ext).toBe("png");
+    expect(sniffImage(pad([0xff, 0xd8, 0xff, 0xe0]))?.ext).toBe("jpg");
+    expect(sniffImage(new Uint8Array([0x52, 0x49, 0x46, 0x46, 0, 0, 0, 0, 0x57, 0x45, 0x42, 0x50, 0, 0, 0, 0]))?.ext).toBe("webp");
+  });
+  it("rejects HTML, SVG, GIF, empty and tiny input", () => {
+    const text = (t: string) => new TextEncoder().encode(t.padEnd(40, " "));
+    expect(sniffImage(text("<script>alert(1)</script>"))).toBeNull();
+    expect(sniffImage(text("<svg xmlns='http://www.w3.org/2000/svg'></svg>"))).toBeNull();
+    expect(sniffImage(text("GIF89a"))).toBeNull();
+    expect(sniffImage(new Uint8Array())).toBeNull();
+    expect(sniffImage(new Uint8Array([0x89, 0x50]))).toBeNull();
+  });
+  it("limits uploads to 4 MB", () => expect(MAX_IMAGE_BYTES).toBe(4194304));
+});

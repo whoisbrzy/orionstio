@@ -1,6 +1,11 @@
 export interface Pack { id: "mini" | "core"; name: string; usd: number; robux: number; includes: string[] }
 export interface Maintenance { enabled: boolean; message: string }
-export interface SiteData { packs: Pack[]; maintenance: Maintenance }
+export interface Project { id: string; name: string; service: string; year: number; summary: string; image: string }
+/** An empty url means "not set". */
+export interface Contact { label: string; url: string }
+export interface Announcement { enabled: boolean; text: string; linkLabel: string; linkUrl: string }
+export interface Copy { hero: string; intro: string; about1: string; about2: string; contact: string }
+export interface SiteData { packs: Pack[]; maintenance: Maintenance; projects: Project[]; contact: Contact; announcement: Announcement; copy: Copy }
 
 export const DEFAULT_MESSAGE = "We are making some changes and will be back soon.";
 
@@ -10,7 +15,35 @@ export const DEFAULT_SITE: SiteData = {
     { id: "core", name: "Core", usd: 49, robux: 5000, includes: ["Custom brand logo", "Logo variations and alternatives", "Complete brand color system", "Typography system", "Supporting visual elements", "Extended brand guidelines", "Full brand asset package"] },
   ],
   maintenance: { enabled: false, message: DEFAULT_MESSAGE },
+  projects: [],
+  contact: { label: "Contact us", url: "" },
+  announcement: { enabled: false, text: "", linkLabel: "", linkUrl: "" },
+  copy: {
+    hero: "We design brand strategy, identity and digital work for businesses that have something to say.",
+    intro: "A brand should tell people who you are and what you do. We remove any design decision that doesn't help with that.",
+    about1: "Orion helps businesses build a clear, distinctive brand.",
+    about2: "Strategy, identity and digital work happen in the same studio, so the decisions stay consistent from the first idea to the final detail.",
+    contact: "The first step is a conversation about the project, so we can scope it.",
+  },
 };
+
+export const LIMITS = { projects: 24, copy: 400, announcement: 160 };
+
+/** Only https links, mailto links (when allowed) and links inside this site. Anything else, like javascript:, is rejected. */
+export function safeUrl(value: unknown, opts: { mailto?: boolean; image?: boolean } = {}): string | null {
+  if (typeof value !== "string") return null;
+  const url = value.trim();
+  if (url === "") return "";
+  if (url.length > 500) return null;
+  if (opts.image) return /^https:\/\/[^\s]+$/i.test(url) || /^\/uploads\/[A-Za-z0-9._-]+$/.test(url) ? url : null;
+  if (/^\/(?![\/\\])[^\s\\]*$/.test(url) || /^#[A-Za-z0-9_-]+$/.test(url)) return url;
+  try {
+    const parsed = new URL(url);
+    if (parsed.protocol === "https:") return url;
+    if (opts.mailto && parsed.protocol === "mailto:" && /^mailto:[^\s@]+@[^\s@]+$/.test(url)) return url;
+  } catch { /* fall through */ }
+  return null;
+}
 
 const clean = (value: unknown, max: number) => typeof value === "string" ? value.trim().slice(0, max) : "";
 
@@ -40,8 +73,60 @@ export function parseSite(input: unknown): { ok: true; data: SiteData } | { ok: 
   if (!m || typeof m.enabled !== "boolean") errors.push("Maintenance setting is missing.");
   const message = clean(m?.message, 300) || DEFAULT_MESSAGE;
 
+  // Sections added later fall back to their defaults when missing, so data saved earlier still loads.
+  const d = DEFAULT_SITE;
+
+  let projects: Project[] = d.projects;
+  if (raw.projects !== undefined) {
+    if (!Array.isArray(raw.projects)) errors.push("Projects must be a list.");
+    else {
+      if (raw.projects.length > LIMITS.projects) errors.push(`At most ${LIMITS.projects} projects.`);
+      const seen = new Set<string>();
+      projects = raw.projects.slice(0, LIMITS.projects).map((p, i) => {
+        const label = `Project ${i + 1}`;
+        const id = typeof p?.id === "string" && /^[a-z0-9-]{1,40}$/.test(p.id) ? p.id : "";
+        if (!id || seen.has(id)) errors.push(`${label}: invalid or repeated id.`);
+        seen.add(id);
+        const name = clean(p?.name, 60);
+        if (!name) errors.push(`${label}: name is required.`);
+        const year = typeof p?.year === "number" ? p.year : NaN;
+        if (!Number.isInteger(year) || year < 1990 || year > 2100) errors.push(`${label}: year must be between 1990 and 2100.`);
+        const image = safeUrl(p?.image, { image: true });
+        if (image === null) errors.push(`${label}: image must be an https address or an upload.`);
+        return { id, name, service: clean(p?.service, 60), year, summary: clean(p?.summary, 300), image: image ?? "" };
+      });
+    }
+  }
+
+  let contact: Contact = d.contact;
+  if (raw.contact !== undefined) {
+    const url = safeUrl(raw.contact?.url, { mailto: true });
+    if (url === null) errors.push("Contact link must start with https:// or mailto:.");
+    contact = { label: clean(raw.contact?.label, 40) || d.contact.label, url: url ?? "" };
+  }
+
+  let announcement: Announcement = d.announcement;
+  if (raw.announcement !== undefined) {
+    const a = raw.announcement;
+    if (typeof a?.enabled !== "boolean") errors.push("Announcement setting is missing.");
+    const linkUrl = safeUrl(a?.linkUrl);
+    if (linkUrl === null) errors.push("Announcement link must start with https://, / or #.");
+    const text = clean(a?.text, LIMITS.announcement);
+    if (a?.enabled === true && !text) errors.push("Announcement text is required while the banner is on.");
+    announcement = { enabled: a?.enabled === true, text, linkLabel: clean(a?.linkLabel, 30), linkUrl: linkUrl ?? "" };
+  }
+
+  let copy: Copy = d.copy;
+  if (raw.copy !== undefined) {
+    const c = (raw.copy ?? {}) as Partial<Copy>;
+    copy = Object.fromEntries((Object.keys(d.copy) as (keyof Copy)[]).map((key) => {
+      if (c[key] !== undefined && typeof c[key] !== "string") errors.push(`Text "${key}" must be text.`);
+      return [key, clean(c[key], LIMITS.copy) || d.copy[key]];
+    })) as unknown as Copy;
+  }
+
   if (errors.length) return { ok: false, errors };
-  return { ok: true, data: { packs, maintenance: { enabled: m!.enabled, message } } };
+  return { ok: true, data: { packs, maintenance: { enabled: m!.enabled, message }, projects, contact, announcement, copy } };
 }
 
 export const formatUsd = (usd: number) => `$${Number.isInteger(usd) ? usd : usd.toFixed(2)}`;
