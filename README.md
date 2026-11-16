@@ -46,21 +46,27 @@ The site renders on the server (Astro with the Vercel adapter) and reads pack da
 
 1. Open the [Discord Developer Portal](https://discord.com/developers/applications) and create a **New Application** (or pick one).
 2. Open **OAuth2**. Copy the **Client ID**, then **Reset Secret** to get the **Client Secret**.
-3. Under **Redirects** add `https://orionstdio.vercel.app/api/auth/callback` (use your real domain, and add each custom domain you use) and `http://localhost:4321/api/auth/callback` for local work. Save.
+3. Under **Redirects** add `https://orionstdio.vercel.app/api/auth/callback` (add each custom domain you use too) and `http://localhost:4321/api/auth/callback` for local work. Save.
 
 The site only asks for the `identify` scope, so Discord shares your user ID, name and avatar and nothing else.
 
+### Set up Supabase
+
+1. Create a project at [supabase.com](https://supabase.com).
+2. Open the **SQL editor** and run `supabase/schema.sql`. It creates one `site_data` table with row level security on and no policies, so the public anon key cannot read or write it.
+3. Open **Project Settings > API** and copy the **Project URL** and the **service_role** key. The service role key is a secret. Only put it in Vercel's environment variables, never in git or in browser code.
+
 ### Set up Vercel
 
-1. In the Vercel project, open **Storage** (or the Marketplace) and add an **Upstash Redis** database. Connect it to the project. This adds `KV_REST_API_URL` and `KV_REST_API_TOKEN`.
-2. Under **Settings > Environment Variables** add:
-   - `DISCORD_CLIENT_ID` and `DISCORD_CLIENT_SECRET` from the steps above
-   - `SESSION_SECRET`, a long random string (`openssl rand -base64 32`)
-   - `SITE_URL`, for example `https://orionstdio.vercel.app`
-   - `ADMIN_DISCORD_ID` only if the allowed user should change
-3. Redeploy, then open `/admin`.
+Under **Settings > Environment Variables** add:
 
-See `.env.example` for local development. Without Redis, local dev stores data in `.data/site.json`, which git ignores. Never commit `.env`.
+- `DISCORD_CLIENT_ID` (`1571819912203075674`) and `DISCORD_CLIENT_SECRET`
+- `SESSION_SECRET`, a long random string (`openssl rand -base64 32`)
+- `SITE_URL`, `https://orionstdio.vercel.app`
+- `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` from the Supabase step
+- `ADMIN_DISCORD_ID` only if the allowed user should change
+
+Then redeploy and open `/admin`. See `.env.example` for local development. Without Supabase, local dev stores data in `.data/site.json`, which git ignores. Never commit `.env`.
 
 ### How it is protected
 

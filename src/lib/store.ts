@@ -4,33 +4,35 @@ import { env } from "./env";
 import { DEFAULT_SITE, parseSite, type SiteData } from "./site";
 
 const KEY = "orion:site";
+const TABLE = "site_data";
 
-const restUrl = () => env("KV_REST_API_URL") ?? env("UPSTASH_REDIS_REST_URL");
-const restToken = () => env("KV_REST_API_TOKEN") ?? env("UPSTASH_REDIS_REST_TOKEN");
+const base = () => env("SUPABASE_URL")?.replace(/\/$/, "");
+const serviceKey = () => env("SUPABASE_SERVICE_ROLE_KEY");
+const hasSupabase = () => Boolean(base() && serviceKey());
 
-async function redis(command: unknown[]): Promise<unknown> {
-  const response = await fetch(restUrl()!, {
-    method: "POST",
-    headers: { authorization: `Bearer ${restToken()}`, "content-type": "application/json" },
-    body: JSON.stringify(command),
-  });
-  if (!response.ok) throw new Error(`Storage request failed (${response.status}).`);
-  const body = await response.json() as { result?: unknown; error?: string };
-  if (body.error) throw new Error(body.error);
-  return body.result;
+export const storageMode = () => hasSupabase() ? "supabase" : "file";
+
+function headers(extra: Record<string, string> = {}) {
+  const key = serviceKey()!;
+  return { apikey: key, authorization: `Bearer ${key}`, "content-type": "application/json", ...extra };
 }
 
-// Local development has no Redis, so it keeps the data in a git-ignored file.
+// Local development has no Supabase, so it keeps the data in a git-ignored file.
 const devFile = join(process.cwd(), ".data", "site.json");
-const hasRedis = () => Boolean(restUrl() && restToken());
-
-export const storageMode = () => hasRedis() ? "redis" : "file";
 
 export async function readSite(): Promise<SiteData> {
   try {
-    const text = hasRedis() ? await redis(["GET", KEY]) as string | null : await readFile(devFile, "utf8");
-    if (!text) return DEFAULT_SITE;
-    const parsed = parseSite(JSON.parse(text));
+    let value: unknown;
+    if (hasSupabase()) {
+      const response = await fetch(`${base()}/rest/v1/${TABLE}?key=eq.${encodeURIComponent(KEY)}&select=value`, { headers: headers() });
+      if (!response.ok) throw new Error(`Storage request failed (${response.status}).`);
+      const rows = await response.json() as { value: unknown }[];
+      value = rows[0]?.value;
+    } else {
+      value = JSON.parse(await readFile(devFile, "utf8"));
+    }
+    if (!value) return DEFAULT_SITE;
+    const parsed = parseSite(value);
     return parsed.ok ? parsed.data : DEFAULT_SITE;
   } catch {
     return DEFAULT_SITE;
@@ -38,9 +40,16 @@ export async function readSite(): Promise<SiteData> {
 }
 
 export async function writeSite(data: SiteData): Promise<void> {
-  const text = JSON.stringify(data);
-  if (hasRedis()) { await redis(["SET", KEY, text]); return; }
-  if (process.env.VERCEL) throw new Error("Storage is not connected. Add an Upstash Redis database to this Vercel project.");
+  if (hasSupabase()) {
+    const response = await fetch(`${base()}/rest/v1/${TABLE}?on_conflict=key`, {
+      method: "POST",
+      headers: headers({ prefer: "resolution=merge-duplicates,return=minimal" }),
+      body: JSON.stringify({ key: KEY, value: data, updated_at: new Date().toISOString() }),
+    });
+    if (!response.ok) throw new Error(`Could not save to Supabase (${response.status}). Check the table exists and the service role key is right.`);
+    return;
+  }
+  if (process.env.VERCEL) throw new Error("Storage is not connected. Add SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY to this Vercel project.");
   await mkdir(dirname(devFile), { recursive: true });
-  await writeFile(devFile, text);
+  await writeFile(devFile, JSON.stringify(data));
 }
