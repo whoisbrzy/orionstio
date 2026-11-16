@@ -3,9 +3,9 @@ import "../../styles/global.css";
 import "../../styles/admin.css";
 if (Astro.locals.admin) return Astro.redirect("/admin");
 const messages: Record<string, string> = {
-  denied: "That Google account does not have access.",
+  denied: "That Discord account does not have access.",
   failed: "Sign-in did not finish. Please try again.",
-  setup: "Sign-in is not set up yet. The server is missing its Google settings.",
+  setup: "Sign-in is not set up yet. The server is missing its Discord settings.",
 };
 const error = messages[Astro.url.searchParams.get("error") ?? ""];
 ---
@@ -26,9 +26,9 @@ const error = messages[Astro.url.searchParams.get("error") ?? ""];
 <div class="login-card">
 <img src="/orion-wordmark.webp" alt="Orion" width="480" height="140">
 <h1>Admin</h1>
-<p>Sign in with the Google account that owns this site.</p>
+<p>Sign in with the Discord account that owns this site.</p>
 {error && <p class="error" role="alert">{error}</p>}
-<a class="google-btn" href="/api/auth/google"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.35 11.1H12v2.98h5.35c-.23 1.4-1.64 4.1-5.35 4.1a5.9 5.9 0 0 1 0-11.8c1.87 0 3.12.8 3.84 1.48l2.62-2.52C17.76 3.8 15.1 2.7 12 2.7a9.3 9.3 0 1 0 0 18.6c5.37 0 8.93-3.77 8.93-9.08 0-.6-.07-1.06-.15-1.12Z"/></svg>Continue with Google</a>
+<a class="oauth-btn" href="/api/auth/discord"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.5 5.4A16.5 16.5 0 0 0 15.4 4l-.5 1a15 15 0 0 0-4.8 0l-.5-1a16.5 16.5 0 0 0-4.1 1.4C2.9 9.3 2.2 13.1 2.5 16.8a16.6 16.6 0 0 0 5 2.5l1.1-1.7a10.7 10.7 0 0 1-1.7-.8l.4-.3a11.8 11.8 0 0 0 10.2 0l.4.3c-.5.3-1.1.6-1.7.8l1.1 1.7a16.6 16.6 0 0 0 5-2.5c.4-4.3-.7-8.1-3.3-11.4ZM9.2 14.6c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2Zm5.600 0c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2Z"/></svg>Continue with Discord</a>
 </div>
 </main>
 </body>

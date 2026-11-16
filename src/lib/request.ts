@@ -1,6 +1,6 @@
 import { env } from "./env";
 
-/** The public address of the site, used to build the Google redirect address. */
+/** The public address of the site, used to build the Discord redirect address. */
 export function siteOrigin(url: URL): string {
   return (env("SITE_URL") ?? url.origin).replace(/\/$/, "");
 }

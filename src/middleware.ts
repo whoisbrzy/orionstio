@@ -1,5 +1,6 @@
 import { defineMiddleware } from "astro:middleware";
 import { env } from "./lib/env";
+import { DEFAULT_ADMIN_ID } from "./lib/auth";
 import { SESSION_COOKIE, verify } from "./lib/session";
 import { readSite } from "./lib/store";
 import { maintenanceHtml } from "./lib/maintenance";
@@ -7,10 +8,10 @@ import { maintenanceHtml } from "./lib/maintenance";
 export const onRequest = defineMiddleware(async (context, next) => {
   const { cookies, url, locals } = context;
   const secret = env("SESSION_SECRET") ?? "";
-  const allowed = env("ADMIN_EMAIL")?.trim().toLowerCase();
-  const session = verify<{ email: string }>(cookies.get(SESSION_COOKIE)?.value, secret);
-  // Re-check the email on every request, so changing ADMIN_EMAIL locks out the old account.
-  locals.admin = session && allowed && session.email === allowed ? session.email : null;
+  const allowed = (env("ADMIN_DISCORD_ID") ?? DEFAULT_ADMIN_ID).trim();
+  const session = verify<{ id: string; name?: string }>(cookies.get(SESSION_COOKIE)?.value, secret);
+  // Re-check the ID on every request, so changing the allowed ID locks out the old account.
+  locals.admin = session && session.id === allowed ? (session.name ?? session.id) : null;
 
   const path = url.pathname;
   const isAdminArea = path === "/admin" || path.startsWith("/admin/");

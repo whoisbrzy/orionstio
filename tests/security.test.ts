@@ -1,21 +1,20 @@
 import { describe, expect, it } from "vitest";
 import { sign, verify } from "../src/lib/session";
-import { challengeFor, isAllowed, readIdToken } from "../src/lib/auth";
+import { DEFAULT_ADMIN_ID, challengeFor, isAllowed, readUser } from "../src/lib/auth";
 import { DEFAULT_SITE, parseSite } from "../src/lib/site";
 
 const secret = "test-secret-test-secret-test-secret";
-const idToken = (claims: object) => `x.${Buffer.from(JSON.stringify(claims)).toString("base64url")}.y`;
-const good = { email: "Me@Example.com", email_verified: true, aud: "client", iss: "https://accounts.google.com" };
+const owner = { id: "1366813770344829131", username: "owner", global_name: "Owner" };
 
 describe("session", () => {
   it("round-trips a signed payload", () => {
-    expect(verify<{ email: string }>(sign({ email: "a@b.c" }, secret, 60), secret)?.email).toBe("a@b.c");
+    expect(verify<{ id: string }>(sign({ id: "1" }, secret, 60), secret)?.id).toBe("1");
   });
   it("rejects a wrong secret, tampering, expiry and junk", () => {
-    const token = sign({ email: "a@b.c" }, secret, 60);
+    const token = sign({ id: "1" }, secret, 60);
     expect(verify(token, "other-secret")).toBeNull();
     const [body, sig] = token.split(".");
-    const forged = Buffer.from(JSON.stringify({ email: "evil@x.y", exp: 9999999999 })).toString("base64url");
+    const forged = Buffer.from(JSON.stringify({ id: "evil", exp: 9999999999 })).toString("base64url");
     expect(verify(`${forged}.${sig}`, secret)).toBeNull();
     expect(verify(`${body}.AAAA`, secret)).toBeNull();
     expect(verify(token, secret, Date.now() + 61_000)).toBeNull();
@@ -26,18 +25,23 @@ describe("session", () => {
 });
 
 describe("allow list", () => {
-  const id = readIdToken(idToken(good));
-  it("accepts only the allowed, verified email for this client, ignoring case", () => {
-    expect(isAllowed(id, "me@example.com", "client")).toBe(true);
+  it("allows only the owner's Discord ID", () => {
+    expect(DEFAULT_ADMIN_ID).toBe("1366813770344829131");
+    expect(isAllowed(readUser(owner), DEFAULT_ADMIN_ID)).toBe(true);
   });
-  it("rejects other accounts, unverified email, wrong audience or issuer, and missing config", () => {
-    expect(isAllowed(id, "other@example.com", "client")).toBe(false);
-    expect(isAllowed(readIdToken(idToken({ ...good, email_verified: false })), "me@example.com", "client")).toBe(false);
-    expect(isAllowed(id, "me@example.com", "another-client")).toBe(false);
-    expect(isAllowed(readIdToken(idToken({ ...good, iss: "https://evil.test" })), "me@example.com", "client")).toBe(false);
-    expect(isAllowed(id, undefined, "client")).toBe(false);
-    expect(isAllowed(null, "me@example.com", "client")).toBe(false);
-    expect(readIdToken("garbage")).toBeNull();
+  it("rejects other IDs, near misses, missing config and bad responses", () => {
+    expect(isAllowed(readUser({ ...owner, id: "1366813770344829132" }), DEFAULT_ADMIN_ID)).toBe(false);
+    expect(isAllowed(readUser({ ...owner, id: "136681377034482913" }), DEFAULT_ADMIN_ID)).toBe(false);
+    expect(isAllowed(readUser(owner), undefined)).toBe(false);
+    expect(isAllowed(readUser(owner), "")).toBe(false);
+    expect(isAllowed(null, DEFAULT_ADMIN_ID)).toBe(false);
+    expect(readUser({ id: 1366813770344829131 })).toBeNull();
+    expect(readUser({ id: "abc" })).toBeNull();
+    expect(readUser(null)).toBeNull();
+  });
+  it("uses the display name, then the username", () => {
+    expect(readUser(owner)?.name).toBe("Owner");
+    expect(readUser({ id: owner.id, username: "owner" })?.name).toBe("owner");
   });
   it("computes the PKCE challenge from RFC 7636's example", () => {
     expect(challengeFor("dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk")).toBe("E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM");

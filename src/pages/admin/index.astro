@@ -3,7 +3,7 @@ import "../../styles/global.css";
 import "../../styles/admin.css";
 import { readSite } from "../../lib/store";
 const site = await readSite();
-const email = Astro.locals.admin;
+const name = Astro.locals.admin;
 ---
 <html lang="en">
 <head>
@@ -23,7 +23,7 @@ const email = Astro.locals.admin;
 <img src="/orion-wordmark.webp" alt="Orion" width="480" height="140">
 <form method="post" action="/api/auth/logout"><button class="ghost" type="submit">Sign out</button></form>
 </div>
-<div><h1>Admin</h1><p class="admin-sub">Signed in as {email}. <a href="/" target="_blank" rel="noopener" style="text-decoration:underline">View site</a></p></div>
+<div><h1>Admin</h1><p class="admin-sub">Signed in as {name}. <a href="/" target="_blank" rel="noopener" style="text-decoration:underline">View site</a></p></div>
 
 <form id="site-form" class="admin-wrap" style="gap:1.25rem" novalidate>
 <section class="panel" aria-labelledby="maint-h">

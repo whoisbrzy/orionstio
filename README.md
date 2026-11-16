@@ -38,26 +38,26 @@ The page intentionally contains no fabricated client case studies or invented co
 
 ## Admin panel
 
-`/admin` is protected by Google sign-in and only lets in the one account named in `ADMIN_EMAIL`. From there you can edit the Mini and Core names, dollar and Robux prices, and what each pack includes, and turn maintenance mode on or off. Maintenance mode shows visitors a "back soon" page (HTTP 503). You still see the real site while signed in.
+`/admin` is protected by Discord sign-in and only lets in one Discord user ID (`1366813770344829131`, or whatever `ADMIN_DISCORD_ID` is set to). From there you can edit the Mini and Core names, dollar and Robux prices, and what each pack includes, and turn maintenance mode on or off. Maintenance mode shows visitors a "back soon" page (HTTP 503). You still see the real site while signed in.
 
 The site renders on the server (Astro with the Vercel adapter) and reads pack data from storage on each request.
 
-### Set up Google sign-in
+### Set up Discord sign-in
 
-1. Open the [Google Cloud Console](https://console.cloud.google.com/) and create a project (or pick one).
-2. Go to **APIs & Services > OAuth consent screen** (called **Google Auth Platform** in newer consoles). Choose **External**, fill in the app name and your email, and save. Leave it in Testing and add your own Google account as a test user.
-3. Go to **Credentials > Create credentials > OAuth client ID**. Application type: **Web application**.
-4. Under **Authorized redirect URIs** add `https://orionstdio.vercel.app/api/auth/callback` (use your real domain, and add each custom domain you use) and `http://localhost:4321/api/auth/callback` for local work.
-5. Copy the client ID and client secret.
+1. Open the [Discord Developer Portal](https://discord.com/developers/applications) and create a **New Application** (or pick one).
+2. Open **OAuth2**. Copy the **Client ID**, then **Reset Secret** to get the **Client Secret**.
+3. Under **Redirects** add `https://orionstdio.vercel.app/api/auth/callback` (use your real domain, and add each custom domain you use) and `http://localhost:4321/api/auth/callback` for local work. Save.
+
+The site only asks for the `identify` scope, so Discord shares your user ID, name and avatar and nothing else.
 
 ### Set up Vercel
 
 1. In the Vercel project, open **Storage** (or the Marketplace) and add an **Upstash Redis** database. Connect it to the project. This adds `KV_REST_API_URL` and `KV_REST_API_TOKEN`.
 2. Under **Settings > Environment Variables** add:
-   - `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` from step 5 above
-   - `ADMIN_EMAIL`, the Google account allowed in
+   - `DISCORD_CLIENT_ID` and `DISCORD_CLIENT_SECRET` from the steps above
    - `SESSION_SECRET`, a long random string (`openssl rand -base64 32`)
    - `SITE_URL`, for example `https://orionstdio.vercel.app`
+   - `ADMIN_DISCORD_ID` only if the allowed user should change
 3. Redeploy, then open `/admin`.
 
 See `.env.example` for local development. Without Redis, local dev stores data in `.data/site.json`, which git ignores. Never commit `.env`.
@@ -65,6 +65,6 @@ See `.env.example` for local development. Without Redis, local dev stores data i
 ### How it is protected
 
 - Sign-in uses the authorization code flow with PKCE and a state check.
-- The server only accepts a verified email from Google, issued to this app, that matches `ADMIN_EMAIL`.
-- Sessions are signed, HTTP-only cookies that last 8 hours. The email is checked again on every request.
+- The server fetches the user's ID from Discord with the token it just received, and only the allowed ID gets a session.
+- Sessions are signed, HTTP-only cookies that last 8 hours. The ID is checked again on every request.
 - Admin pages and `/api/admin/*` return a redirect or 401 without a valid session. Saves also require a same-origin request and valid input.
